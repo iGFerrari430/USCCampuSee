@@ -5,27 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/holo_blue_light"
-    tools:context=".LogInActivity" >
+    tools:context=".SignUpActivity">
 
     <TextView
-        android:id="@+id/login"
+        android:id="@+id/signup"
         android:layout_width="216dp"
         android:layout_height="80dp"
         android:gravity="center"
-        android:text="Log In "
+        android:text="Sign Up"
         android:textSize="36sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.087" />
 
     <EditText
         android:id="@+id/email"
-        android:layout_width="228dp"
-        android:layout_height="81dp"
+        android:layout_width="208dp"
+        android:layout_height="82dp"
         android:ems="10"
         android:inputType="textEmailAddress"
         android:text="enter the email"
@@ -35,22 +35,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login"
-        app:layout_constraintVertical_bias="0.107" />
-
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="216dp"
-        android:layout_height="77dp"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:text="password"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email"
-        app:layout_constraintVertical_bias="0.078" />
+        app:layout_constraintTop_toBottomOf="@+id/signup"
+        app:layout_constraintVertical_bias="0.105" />
 
     <RadioGroup
         android:id="@+id/radioGroup"
@@ -83,6 +69,7 @@
             android:layout_height="62dp"
             android:text="User"
             android:textSize="30sp" />
+
     </RadioGroup>
 
     <Button
@@ -93,7 +80,21 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+        app:layout_constraintVertical_bias="0.613" />
 
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="216dp"
+        android:layout_height="77dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:text="password"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email"
+        app:layout_constraintVertical_bias="0.109" />
 </androidx.constraintlayout.widget.ConstraintLayout>
