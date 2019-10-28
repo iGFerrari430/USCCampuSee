@@ -14,14 +14,15 @@
         android:fontFamily="sans-serif"
         android:gravity="center"
         android:text="Log In "
+        android:textColor="@android:color/secondary_text_light"
         android:textSize="36sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintHorizontal_bias="0.463"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.087" />
+        app:layout_constraintVertical_bias="0.085" />
 
     <EditText
         android:id="@+id/email"
@@ -76,6 +77,7 @@
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:text="Publisher"
+            android:textColor="@android:color/secondary_text_light"
             android:textSize="30sp" />
 
         <RadioButton
@@ -83,6 +85,7 @@
             android:layout_width="158dp"
             android:layout_height="62dp"
             android:text="User"
+            android:textColor="@android:color/secondary_text_light"
             android:textSize="30sp" />
     </RadioGroup>
 
