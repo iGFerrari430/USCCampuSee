@@ -2,6 +2,7 @@ package com.example.campusee;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -19,6 +20,8 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+
+
 
 public class LogInActivity extends AppCompatActivity {
 
@@ -53,7 +56,8 @@ public class LogInActivity extends AppCompatActivity {
             }
         });
     }
-    DB_util db = new DB_util();
+    // set up the configuration of database.
+    public DB_util db = new DB_util();
     public RadioGroup radioGroup = null;
     public EditText emailView = null;
     public EditText passwordView = null;
@@ -68,6 +72,7 @@ public class LogInActivity extends AppCompatActivity {
         Log.d("PASSWORD: ",password);
         User user = new User((selectedId == this.PUBLISHER),email,password);
 
+        // do the login task in the backend, since android does not allow heavy task to be executed in UI Thread.
         LogInTask loginTask = new LogInTask(user,db);
         loginTask.execute((Void)null);
     }
@@ -158,6 +163,14 @@ public class LogInActivity extends AppCompatActivity {
                 passwordView.setError("Password Incorrect");
             }else if (result == Login_Success){
                 Toast.makeText(getApplication().getBaseContext(),"LOGIN SUCCESS!",Toast.LENGTH_LONG).show();
+                Intent intent = null;
+                if (user.isPublisher){
+                    intent = new Intent(LogInActivity.this,PublisherDashboardActivity.class);
+                }else{
+                    intent = new Intent(LogInActivity.this,NormalUserDashboardActivity.class);
+                }
+                intent.putExtra("Email",user.email);
+                startActivity(intent);
             }else{
                 Toast.makeText(getApplication().getBaseContext(),"FATAL: did not connect to DB.",Toast.LENGTH_LONG).show();
             }

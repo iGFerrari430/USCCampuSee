@@ -1,5 +1,6 @@
 package com.example.campusee;
 
+// Used to organize login/signup requests.
 public class User {
     public boolean isPublisher = false;
     public String email;

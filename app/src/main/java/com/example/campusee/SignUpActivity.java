@@ -3,6 +3,7 @@ package com.example.campusee;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -169,7 +170,14 @@ public class SignUpActivity extends AppCompatActivity {
             if (result){
                 Log.d("Success","SuccessRegistration");
                 Toast.makeText(getApplication().getBaseContext(),"Success!",Toast.LENGTH_LONG).show();
-
+                Intent intent = null;
+                if (user.isPublisher){
+                    intent = new Intent(SignUpActivity.this,PublisherDashboardActivity.class);
+                }else{
+                    intent = new Intent(SignUpActivity.this,NormalUserDashboardActivity.class);
+                }
+                intent.putExtra("Email",user.email);
+                startActivity(intent);
             }else{
                 Log.d("Failure","most likely more than 2 users");
                 Toast.makeText(getApplication().getBaseContext(),"USER ALREADY EXISTS",Toast.LENGTH_LONG).show();
