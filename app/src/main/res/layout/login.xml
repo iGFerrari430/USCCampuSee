@@ -62,6 +62,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
+        android:checkedButton="@id/Login_User"
         android:paddingLeft="100dp"
         android:paddingTop="50dp"
         android:paddingBottom="30dp"
@@ -73,7 +74,7 @@
         app:layout_constraintVertical_bias="0.788">
 
         <RadioButton
-            android:id="@+id/publisher"
+            android:id="@+id/LogIn_Publisher"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:text="Publisher"
@@ -81,7 +82,7 @@
             android:textSize="30sp" />
 
         <RadioButton
-            android:id="@+id/user"
+            android:id="@+id/Login_User"
             android:layout_width="158dp"
             android:layout_height="62dp"
             android:text="User"

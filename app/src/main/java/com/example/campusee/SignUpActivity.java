@@ -40,7 +40,6 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText emailView = null;
     private EditText passwordView = null;
     private RadioGroup radioGroup = null;
-    private final int PUBLISHER = 2131230849;
     public DB_util db = new DB_util();
 
     @Override
@@ -96,7 +95,13 @@ public class SignUpActivity extends AppCompatActivity {
             emailView.setError("But this is not an email!");
             return;
         }
-        User user = new User((selectedId == this.PUBLISHER),email,password);
+        boolean isPub = true;
+        if (selectedId == R.id.LogIn_Publisher){
+            isPub = true;
+        }else{
+            isPub = false;
+        }
+        User user = new User(isPub,email,password);
         SignUpTask sTask = new SignUpTask(user,db);
         sTask.execute((Void)null);
     }

@@ -70,7 +70,13 @@ public class LogInActivity extends AppCompatActivity {
         Log.d("Checked id: ",""+selectedId);
         Log.d("EMAIL: ",email);
         Log.d("PASSWORD: ",password);
-        User user = new User((selectedId == this.PUBLISHER),email,password);
+        boolean isPub = true;
+        if (selectedId == R.id.LogIn_Publisher){
+            isPub = true;
+        }else{
+            isPub = false;
+        }
+        User user = new User(isPub,email,password);
 
         // do the login task in the backend, since android does not allow heavy task to be executed in UI Thread.
         LogInTask loginTask = new LogInTask(user,db);
