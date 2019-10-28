@@ -50,12 +50,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void switchToSignUp(View view) {
         // Do something in response to button
-        final String TAG= "HAHAHAHAHA";
-        Map<String, Object> user = new HashMap<>();
-        user.put("first", "Ada");
-        user.put("last", "Lovelace");
-        user.put("born", 1815);
-
         Intent intent = new Intent(this,SignUpActivity.class);
         startActivity(intent);
     }
