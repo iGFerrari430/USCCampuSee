@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -39,6 +41,7 @@ public class SignUpActivity extends AppCompatActivity {
     private RadioGroup radioGroup = null;
     private final int PUBLISHER = 2131230849;
     public DB_util db = new DB_util();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,10 +51,32 @@ public class SignUpActivity extends AppCompatActivity {
         emailView = findViewById(R.id.email);
         passwordView = findViewById(R.id.password);
 
+        emailView.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                emailView.setError(null);
+            }
 
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                emailView.setError(null);
+            }
+        });
+
+        passwordView.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                passwordView.setError(null);
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                passwordView.setError(null);
+            }
+        });
     }
-
-
+    public boolean isValidEmail(String s){
+        String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+        return s.matches(regex);
+    }
     public void onSubmit(View v){
         Log.d("initial submit", "INITIAL SUBMIT");
         String email = emailView.getText().toString();
@@ -60,16 +85,19 @@ public class SignUpActivity extends AppCompatActivity {
         Log.d("Checked id: ",""+selectedId);
         Log.d("EMAIL: ",email);
         Log.d("PASSWORD: ",password);
-
-        HashMap<String,String> map = new HashMap<>();
-        map.put("vavava","veveve");
-        db.db.collection("MACOSX").add(map);
+        if (email.isEmpty()){
+            emailView.setError("um, Email shouldn't be empty");
+            return;
+        }else if (password.trim().length() < 6){
+            passwordView.setError("um, password should be at least 6 digits long");
+            return;
+        }else if (!isValidEmail(email)){
+            emailView.setError("But this is not an email!");
+            return;
+        }
         User user = new User((selectedId == this.PUBLISHER),email,password);
         SignUpTask sTask = new SignUpTask(user,db);
         sTask.execute((Void)null);
-
-
-
     }
 
     public class SignUpTask extends AsyncTask<Void,Void,Boolean> {
@@ -132,7 +160,7 @@ public class SignUpActivity extends AppCompatActivity {
                 //Log.d("WTF","WTF");
             }
 
-            Log.d("SIZE OF THE LIST: ",res.size()+"");
+            Log.d("SIZE OF THE LIST: ",shots.size()+"");
             return res.get(0);
         }
         @Override
@@ -140,11 +168,11 @@ public class SignUpActivity extends AppCompatActivity {
             // TODO Update the UI thread with the final result
             if (result){
                 Log.d("Success","SuccessRegistration");
-                Toast.makeText(getApplication().getBaseContext(),"Success!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication().getBaseContext(),"Success!",Toast.LENGTH_LONG).show();
 
             }else{
                 Log.d("Failure","most likely more than 2 users");
-                Toast.makeText(getApplication().getBaseContext(),"USER ALREADY EXISTS",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication().getBaseContext(),"USER ALREADY EXISTS",Toast.LENGTH_LONG).show();
                 emailView.setError("This username already exists");
             }
         }

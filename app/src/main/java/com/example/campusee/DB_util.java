@@ -17,7 +17,6 @@ public class DB_util {
                 .build();
         db.setFirestoreSettings(settings);
         this.mAuth = FirebaseAuth.getInstance();
-        //N n
         this.publisherCollection = db.collection("Publisher");
         this.userCollection = db.collection("NormalUser");
     }
