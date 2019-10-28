@@ -3,7 +3,10 @@ package com.example.campusee;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -17,6 +20,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -26,16 +30,18 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-public class SignUpActivity extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
-    private FirebaseFirestore db = null;
+
+public class SignUpActivity extends AppCompatActivity {
     private EditText emailView = null;
     private EditText passwordView = null;
     private RadioGroup radioGroup = null;
     private final int PUBLISHER = 2131230849;
+    public DB_util db = new DB_util();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,64 +50,131 @@ public class SignUpActivity extends AppCompatActivity {
         radioGroup = (RadioGroup)findViewById(R.id.radioGroup);
         emailView = findViewById(R.id.email);
         passwordView = findViewById(R.id.password);
+
+        emailView.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                emailView.setError(null);
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                emailView.setError(null);
+            }
+        });
+
+        passwordView.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                passwordView.setError(null);
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                passwordView.setError(null);
+            }
+        });
     }
-
-
+    public boolean isValidEmail(String s){
+        String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+        return s.matches(regex);
+    }
     public void onSubmit(View v){
         Log.d("initial submit", "INITIAL SUBMIT");
-        this.db = FirebaseFirestore.getInstance();
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setTimestampsInSnapshotsEnabled(true)
-                .build();
-        db.setFirestoreSettings(settings);
-        this.mAuth = FirebaseAuth.getInstance();
-
-
         String email = emailView.getText().toString();
         String password = passwordView.getText().toString();
         int selectedId = radioGroup.getCheckedRadioButtonId();
         Log.d("Checked id: ",""+selectedId);
         Log.d("EMAIL: ",email);
         Log.d("PASSWORD: ",password);
-
-        String collectionName = null;
-        if (selectedId == this.PUBLISHER){
-            collectionName = "Publisher";
-        }else{
-            collectionName = "NormalUser";
+        if (email.isEmpty()){
+            emailView.setError("um, Email shouldn't be empty");
+            return;
+        }else if (password.trim().length() < 6){
+            passwordView.setError("um, password should be at least 6 digits long");
+            return;
+        }else if (!isValidEmail(email)){
+            emailView.setError("But this is not an email!");
+            return;
         }
+        User user = new User((selectedId == this.PUBLISHER),email,password);
+        SignUpTask sTask = new SignUpTask(user,db);
+        sTask.execute((Void)null);
+    }
 
-        Query query = db.collection(collectionName).whereEqualTo("Email",email);
+    public class SignUpTask extends AsyncTask<Void,Void,Boolean> {
 
-        query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                ArrayList<DocumentSnapshot> shots = new ArrayList<>();
-                for (DocumentSnapshot snapshot : queryDocumentSnapshots){
-                    shots.add(snapshot);
-                }
-
-                if (shots.size() > 1){
-                    Toast.makeText(SignUpActivity.this,"Failure: Username used.",Toast.LENGTH_LONG).show();
-                }else{
-
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.w("ERROR", "难受了", e);
-            }
-        });
-
-        try{
-            Thread.sleep(3000);
-            Log.d("printsomething...","print something...");
-        }catch(Exception e){
-
+        public User user = null;
+        public DB_util db = null;
+        public Boolean complete = false;
+        public SignUpTask(User user, DB_util db){
+            this.user = user;
+            this.db = db;
         }
+        @Override
+        protected Boolean doInBackground(Void... users) {
+            CollectionReference col = null;
+            if (user.isPublisher){
+                col = db.publisherCollection;
+            }else{
+                col = db.userCollection;
+            }
+
+            final CollectionReference collection = col;
+            // this is so that the below anonymous class can modify the complete result.. it can't modify a boolean final directly.
+            final ArrayList<Boolean> complete = new ArrayList<>();
+            final ArrayList<Boolean> res = new ArrayList<>();
+            complete.add(false);
+            res.add(false);
+
+            Query query = col.whereEqualTo("Email",user.email);
+            Log.d("EXCITED!!!","VE");
+
+            final ArrayList<DocumentSnapshot> shots = new ArrayList<>();
+            query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>(){
+                @Override
+                public void onSuccess(QuerySnapshot queryDocumentSnapshots){
+
+                    for (DocumentSnapshot snapshot : queryDocumentSnapshots){
+                        shots.add(snapshot);
+                    }
+
+                    if (shots.size() > 0){
+                        complete.set(0,true);
+                    }else{
+                        HashMap<String,String> map = new HashMap<>();
+                        map.put("Email",user.email);
+                        map.put("Password",user.password);
+                        collection.add(map).addOnCompleteListener(new OnCompleteListener<DocumentReference>(){
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentReference> task){
+                                complete.set(0,true);
+                                res.set(0,true);
+                            }
+                        });
+                    }
 
 
+                }
+            });
 
+            while (!complete.get(0)){
+                //Log.d("WTF","WTF");
+            }
+
+            Log.d("SIZE OF THE LIST: ",shots.size()+"");
+            return res.get(0);
+        }
+        @Override
+        protected void onPostExecute(Boolean result) {
+            // TODO Update the UI thread with the final result
+            if (result){
+                Log.d("Success","SuccessRegistration");
+                Toast.makeText(getApplication().getBaseContext(),"Success!",Toast.LENGTH_LONG).show();
+
+            }else{
+                Log.d("Failure","most likely more than 2 users");
+                Toast.makeText(getApplication().getBaseContext(),"USER ALREADY EXISTS",Toast.LENGTH_LONG).show();
+                emailView.setError("This username already exists");
+            }
+        }
     }
 }
