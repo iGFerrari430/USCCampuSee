@@ -91,6 +91,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
 
             final CollectionReference collection = col;
+            // this is so that the below anonymous class can modify the complete result.. it can't modify a boolean final directly.
             final ArrayList<Boolean> complete = new ArrayList<>();
             final ArrayList<Boolean> res = new ArrayList<>();
             complete.add(false);
@@ -98,10 +99,12 @@ public class SignUpActivity extends AppCompatActivity {
 
             Query query = col.whereEqualTo("Email",user.email);
             Log.d("EXCITED!!!","VE");
+
+            final ArrayList<DocumentSnapshot> shots = new ArrayList<>();
             query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>(){
                 @Override
                 public void onSuccess(QuerySnapshot queryDocumentSnapshots){
-                    ArrayList<DocumentSnapshot> shots = new ArrayList<>();
+
                     for (DocumentSnapshot snapshot : queryDocumentSnapshots){
                         shots.add(snapshot);
                     }
@@ -129,17 +132,20 @@ public class SignUpActivity extends AppCompatActivity {
                 //Log.d("WTF","WTF");
             }
 
+            Log.d("SIZE OF THE LIST: ",res.size()+"");
             return res.get(0);
         }
-
         @Override
         protected void onPostExecute(Boolean result) {
             // TODO Update the UI thread with the final result
             if (result){
                 Log.d("Success","SuccessRegistration");
+                Toast.makeText(getApplication().getBaseContext(),"Success!",Toast.LENGTH_SHORT).show();
+
             }else{
                 Log.d("Failure","most likely more than 2 users");
-                Toast.makeText(getApplication().getBaseContext(),"USER ALREADY EXISTS",Toast.LENGTH_SHORT);
+                Toast.makeText(getApplication().getBaseContext(),"USER ALREADY EXISTS",Toast.LENGTH_SHORT).show();
+                emailView.setError("This username already exists");
             }
         }
     }
