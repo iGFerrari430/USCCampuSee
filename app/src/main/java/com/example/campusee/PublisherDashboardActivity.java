@@ -17,7 +17,7 @@ public class PublisherDashboardActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String email = intent.getStringExtra("Email");
-        TextView textView=(TextView)findViewById(R.id.PublisherTextview);
+        TextView textView=(TextView)findViewById(R.id.textView3);
         textView.setText("Welcome to PublisherEashboard, "+email+" !");
 
 
