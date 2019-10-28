@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_blue_light"
+    android:background="#33B5E5"
     tools:context=".MainActivity">
 
     <TextView
@@ -26,6 +26,7 @@
         android:layout_width="170dp"
         android:layout_height="70dp"
         android:layout_marginTop="56dp"
+        android:background="#33FFFFFF"
         android:onClick="switchToLogIn"
         android:text="Log In"
         android:textSize="30sp"
@@ -42,6 +43,7 @@
         android:layout_width="170dp"
         android:layout_height="70dp"
         android:layout_marginTop="280dp"
+        android:background="#33FFFFFF"
         android:onClick="switchToSignUp"
         android:text="Sign up"
         android:textSize="30sp"
