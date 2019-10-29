@@ -15,7 +15,7 @@ public class NormalUserDashboardActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String email = intent.getStringExtra("Email");
-        TextView textView=(TextView)findViewById(R.id.UserTextview);
+        TextView textView=(TextView)findViewById(R.id.follow);
         textView.setText("Welcome to NormalUserDashboard, "+email+" !");
     }
 }
