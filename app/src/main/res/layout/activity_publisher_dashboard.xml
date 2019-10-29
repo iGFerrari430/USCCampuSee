@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:background="#33FFFFFF"
         android:onClick="onClickCreatePost"
-        android:text="Submit"
+        android:text="add post"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
