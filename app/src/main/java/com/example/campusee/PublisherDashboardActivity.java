@@ -19,6 +19,9 @@ public class PublisherDashboardActivity extends AppCompatActivity {
 
     public void onClickCreatePost(View v){
         Intent intent = new Intent(this,EditPostActivity.class);
+        Intent oldIntent = getIntent();
+        String email = intent.getStringExtra("Email");
+        intent.putExtra("Email",oldIntent.getStringExtra("Email"));
         startActivity(intent);
     }
 

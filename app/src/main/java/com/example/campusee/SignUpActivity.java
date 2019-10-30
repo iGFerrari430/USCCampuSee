@@ -176,7 +176,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
         @Override
         protected void onPostExecute(Boolean result) {
-            // TODO: STOP THE SPINNER.
+            // todo: STOP THE SPINNER.
             if (result){
                 Log.d("Success","SuccessRegistration");
                 Toast.makeText(getApplication().getBaseContext(),"Success!",Toast.LENGTH_LONG).show();
