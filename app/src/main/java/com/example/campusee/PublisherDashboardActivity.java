@@ -28,7 +28,10 @@ public class PublisherDashboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_publisher_dashboard);
 
         ImageView imageview = (ImageView)findViewById(R.id.imageView);
+
         DB_util db = new DB_util();
+        StorageReference pic = db.mStorageRef.child("1572421100618.png\n");
+        Glide.with(getApplicationContext()).load(pic).into(imageview);
 
 
     }

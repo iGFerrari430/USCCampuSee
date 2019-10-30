@@ -113,12 +113,14 @@ public class EditPostActivity extends AppCompatActivity {
             this.Title = Title;
             this.Description = Description;
             this.ImageUrlList = ImageUrlList;
+            //this.DownloadUrls = DownloadUrls;
         }
     }
 
     // Here, we submit the post/images to firebase in the background.
     public class SubmitPostTask extends AsyncTask<Void,Void,Boolean> {
-        private ArrayList<String> downloadUrls = new ArrayList<>();
+        private ArrayList<String> pathUrls = new ArrayList<>();
+        private ArrayList<String> DownloadUrls = new ArrayList<>();
         public DB_util db = null;
         public String email = null;
         public PostInfo info = null;
@@ -160,7 +162,8 @@ public class EditPostActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         imageProgressChecker.set(0,imageProgressChecker.get(0)+1);
-                        SubmitPostTask.this.downloadUrls.add(actualUrl);
+                        SubmitPostTask.this.pathUrls.add(actualUrl);
+                        //SubmitPostTask.this.DownloadUrls.add(taskSnapshot.)
                     }
                 }).addOnFailureListener(new OnFailureListener(){
                     @Override
@@ -187,7 +190,7 @@ public class EditPostActivity extends AppCompatActivity {
             Log.d("VE: SUCCESS,","IMAGE UPLOADED SUCCESSFULLY");
 
             // now begin uploading post.
-            DB_Post post = new DB_Post(info.email,info.postTitle,info.postDescription,this.downloadUrls);
+            DB_Post post = new DB_Post(info.email,info.postTitle,info.postDescription,this.pathUrls);
             db.db.collection("Post").add(post).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {

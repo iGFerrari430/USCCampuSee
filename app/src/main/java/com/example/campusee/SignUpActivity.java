@@ -145,7 +145,7 @@ public class SignUpActivity extends AppCompatActivity {
                     for (DocumentSnapshot snapshot : queryDocumentSnapshots){
                         shots.add(snapshot);
                     }
-
+                    Log.d("LIST SIZE: ",""+shots.size());
                     if (shots.size() > 0){
                         complete.set(0,true);
                     }else{
@@ -155,8 +155,9 @@ public class SignUpActivity extends AppCompatActivity {
                         collection.add(map).addOnCompleteListener(new OnCompleteListener<DocumentReference>(){
                             @Override
                             public void onComplete(@NonNull Task<DocumentReference> task){
-                                complete.set(0,true);
                                 res.set(0,true);
+                                complete.set(0,true);
+
                             }
                         });
                     }
