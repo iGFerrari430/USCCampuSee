@@ -66,9 +66,6 @@ public class EditPostActivity extends AppCompatActivity {
                 if (!EditPostActivity.this.isUpLoading){dealWithSubmitPost();}
             }
         });
-
-
-
     }
     public void dealWithSubmitPost(){
         String email = getIntent().getStringExtra("Email");
@@ -95,13 +92,11 @@ public class EditPostActivity extends AppCompatActivity {
             mImageRecord.setText(info);
         }
     }
-
     private String getFileExtension(Uri uri) {
         ContentResolver cR = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
-
     public class DB_Post {
         public String AuthorEmail;
         public String Title;
@@ -131,7 +126,6 @@ public class EditPostActivity extends AppCompatActivity {
         }
         @Override
         protected Boolean doInBackground(Void... users) {
-
             Log.d("begin:::","BEGIN DOING IN BACKGROUND...");
             final ArrayList<Boolean> completeChecker = new ArrayList<>();
             completeChecker.add(false);
@@ -141,15 +135,10 @@ public class EditPostActivity extends AppCompatActivity {
             uploadFailure.add(false);
             EditPostActivity.this.isUpLoading = true;
             int ind = 0;
-            final ArrayList<Boolean> isFirebaseWorking = new ArrayList<>();
-            isFirebaseWorking.add(false);
             while (ind < info.imageList.size()){
-                if (isFirebaseWorking.get(0)){
-                    continue;
-                }else if (uploadFailure.get(0)){
+                if (uploadFailure.get(0)){
                     break;
                 }
-                isFirebaseWorking.set(0,true);
                 Uri uri = info.imageList.get(ind++);
                 Log.d("Now Processing:: ",uri.toString());
                 final String actualUrl = System.currentTimeMillis()+"."+EditPostActivity.this.getFileExtension(uri);
@@ -160,7 +149,6 @@ public class EditPostActivity extends AppCompatActivity {
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         imageProgressChecker.set(0,imageProgressChecker.get(0)+1);
                         SubmitPostTask.this.downloadUrls.add(actualUrl);
-                        isFirebaseWorking.set(0,false);
                     }
                 }).addOnFailureListener(new OnFailureListener(){
                     @Override
@@ -174,9 +162,6 @@ public class EditPostActivity extends AppCompatActivity {
                         Log.d("PROGRESS: ",progress+"");
                     }
                 });
-
-                Log.d("this is END","this is END");
-
             }
 
             while (imageProgressChecker.get(0) < this.info.imageList.size() && !uploadFailure.get(0)){
@@ -219,8 +204,6 @@ public class EditPostActivity extends AppCompatActivity {
                 Log.d("最后通知","挂了");
                 Toast.makeText(EditPostActivity.this, "FAIL TO SUBMIT. TRY AGAIN!", Toast.LENGTH_LONG).show();
             }
-
-
         }
     }
 
