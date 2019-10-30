@@ -1,6 +1,5 @@
 package com.example.campusee;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
@@ -8,7 +7,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 public class DB_util {
-    public FirebaseAuth mAuth;
+    //public FirebaseAuth mAuth;
     public FirebaseFirestore db = null;
     public CollectionReference publisherCollection = null;
     public CollectionReference userCollection = null;
@@ -19,7 +18,7 @@ public class DB_util {
                 .setTimestampsInSnapshotsEnabled(true)
                 .build();
         db.setFirestoreSettings(settings);
-        this.mAuth = FirebaseAuth.getInstance();
+        //this.mAuth = FirebaseAuth.getInstance();
         this.publisherCollection = db.collection("Publisher");
         this.userCollection = db.collection("NormalUser");
         this.mStorageRef = FirebaseStorage.getInstance().getReference();

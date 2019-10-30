@@ -23,17 +23,17 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/editTopic"
+            android:id="@+id/editTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="30dp"
             android:layout_marginRight="30dp"
             android:ems="10"
-            android:hint="Enter Topic" />
+            android:hint="Enter Title" />
 
         <EditText
-            android:id="@+id/editText5"
+            android:id="@+id/editDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
