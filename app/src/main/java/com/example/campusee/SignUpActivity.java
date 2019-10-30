@@ -127,7 +127,8 @@ public class SignUpActivity extends AppCompatActivity {
             }
 
             final CollectionReference collection = col;
-            // this is so that the below anonymous class can modify the complete result.. it can't modify a boolean final directly.
+            // all the below arraylist only represent one variable which is its first.
+            // objects cannot be modified in anonymous inner classes, that's why a list is used.
             final ArrayList<Boolean> complete = new ArrayList<>();
             final ArrayList<Boolean> res = new ArrayList<>();
             complete.add(false);
@@ -168,7 +169,6 @@ public class SignUpActivity extends AppCompatActivity {
                 //Log.d("WTF","WTF");
             }
 
-            Log.d("SIZE OF THE LIST: ",shots.size()+"");
             return res.get(0);
         }
         @Override
@@ -188,7 +188,7 @@ public class SignUpActivity extends AppCompatActivity {
             }else{
                 Log.d("Failure","most likely more than 2 users");
                 Toast.makeText(getApplication().getBaseContext(),"USER ALREADY EXISTS",Toast.LENGTH_LONG).show();
-                emailView.setError("This username already exists");
+                emailView.setError("This username already exists/network error.");
             }
         }
     }

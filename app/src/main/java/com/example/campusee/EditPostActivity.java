@@ -67,6 +67,8 @@ public class EditPostActivity extends AppCompatActivity {
             }
         });
     }
+
+    //When submit button is clicked. begin submiting post
     public void dealWithSubmitPost(){
         String email = getIntent().getStringExtra("Email");
         String title = this.mEditTitleView.getText().toString();
@@ -75,13 +77,15 @@ public class EditPostActivity extends AppCompatActivity {
         SubmitPostTask task = new SubmitPostTask(this.db,info);
         task.execute();
     }
+
+    //open file selector. only images are allowed.
     private void openFileChooser() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
-
+    //When the file selection work is done.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode,resultCode,data);
@@ -97,6 +101,8 @@ public class EditPostActivity extends AppCompatActivity {
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
+
+    // this is simply a wrapper of the information we try to send to Cloud Firestore.
     public class DB_Post {
         public String AuthorEmail;
         public String Title;
@@ -110,6 +116,7 @@ public class EditPostActivity extends AppCompatActivity {
         }
     }
 
+    // Here, we submit the post/images to firebase in the background.
     public class SubmitPostTask extends AsyncTask<Void,Void,Boolean> {
         private ArrayList<String> downloadUrls = new ArrayList<>();
         public DB_util db = null;
@@ -122,11 +129,15 @@ public class EditPostActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            //TODO: ADD A SPINNER;
+            //TODO: ADD A LOADING SPINNER;
         }
+
+        //Actual doing in background TASK.
         @Override
         protected Boolean doInBackground(Void... users) {
             Log.d("begin:::","BEGIN DOING IN BACKGROUND...");
+            // all the below arraylist only represent one variable which is its first.
+            // objects cannot be modified in anonymous inner classes, that's why a list is used.
             final ArrayList<Boolean> completeChecker = new ArrayList<>();
             completeChecker.add(false);
             final ArrayList<Integer> imageProgressChecker = new ArrayList<>();
@@ -135,6 +146,7 @@ public class EditPostActivity extends AppCompatActivity {
             uploadFailure.add(false);
             EditPostActivity.this.isUpLoading = true;
             int ind = 0;
+            //begin uploading images. the loop won't exit until all images are uploaded.
             while (ind < info.imageList.size()){
                 if (uploadFailure.get(0)){
                     break;
@@ -164,14 +176,17 @@ public class EditPostActivity extends AppCompatActivity {
                 });
             }
 
+            // check if not all images are uploaded and no failures occur yet.
             while (imageProgressChecker.get(0) < this.info.imageList.size() && !uploadFailure.get(0)){
                 continue;
             }
-            Log.d("VE: SUCCESS,","IMAGE UPLOADED SUCCESSFULLY");
+            // exit, when images fail to upload.
             if (uploadFailure.get(0)){
                 return false;
             }
+            Log.d("VE: SUCCESS,","IMAGE UPLOADED SUCCESSFULLY");
 
+            // now begin uploading post.
             DB_Post post = new DB_Post(info.email,info.postTitle,info.postDescription,this.downloadUrls);
             db.db.collection("Post").add(post).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
@@ -187,6 +202,7 @@ public class EditPostActivity extends AppCompatActivity {
                 }
             });
 
+            // don't exit when posts are being uploaded.
 
             while(!completeChecker.get(0)){
                 continue;

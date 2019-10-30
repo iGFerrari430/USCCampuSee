@@ -96,6 +96,8 @@ public class LogInActivity extends AppCompatActivity {
             this.db = db;
         }
 
+
+        // Log it in in the background.
         @Override
         protected Integer doInBackground(Void... users) {
             CollectionReference col = null;
@@ -107,6 +109,8 @@ public class LogInActivity extends AppCompatActivity {
 
             final CollectionReference collection = col;
 
+            // all the below arraylist only represent one variable which is its first.
+            // objects cannot be modified in anonymous inner classes, that's why a list is used.
             final ArrayList<Boolean> complete = new ArrayList<>();
             final ArrayList<Integer> res = new ArrayList<>();
             complete.add(false);
@@ -124,6 +128,7 @@ public class LogInActivity extends AppCompatActivity {
                         }
                     }
                     Log.d("see see shots:",shots.toString());
+
                     if (shots.size() == 0){
                         res.set(0,Login_NO_SUCH_USER);
                         complete.set(0,true);
