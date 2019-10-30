@@ -115,6 +115,11 @@ public class SignUpActivity extends AppCompatActivity {
             this.user = user;
             this.db = db;
         }
+
+        @Override
+        protected void onPreExecute() {
+            //TODO: ADD A SPINNER;
+        }
         @Override
         protected Boolean doInBackground(Void... users) {
             CollectionReference col = null;
@@ -171,7 +176,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
         @Override
         protected void onPostExecute(Boolean result) {
-            // TODO Update the UI thread with the final result
+            // TODO: STOP THE SPINNER.
             if (result){
                 Log.d("Success","SuccessRegistration");
                 Toast.makeText(getApplication().getBaseContext(),"Success!",Toast.LENGTH_LONG).show();
