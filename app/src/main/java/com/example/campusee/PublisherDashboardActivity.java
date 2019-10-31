@@ -28,10 +28,10 @@ public class PublisherDashboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_publisher_dashboard);
 
         ImageView imageview = (ImageView)findViewById(R.id.imageView);
-
+        String url = "https://firebasestorage.googleapis.com/v0/b/usccampusee.appspot.com/o/1572421100618.png?alt=media&token=4d658119-e4aa-478d-b6ec-3702aa246aa4";
         DB_util db = new DB_util();
         StorageReference pic = db.mStorageRef.child("1572421100618.png\n");
-        Glide.with(getApplicationContext()).load(pic).into(imageview);
+        Glide.with(getApplicationContext()).load(url).into(imageview);
 
 
     }

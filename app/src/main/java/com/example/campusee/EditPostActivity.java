@@ -3,8 +3,12 @@ package com.example.campusee;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,8 +16,10 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,9 +36,28 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
 public class EditPostActivity extends AppCompatActivity {
+    public class DateWrapper {
+        public int year;
+        public int month;
+        public int day;
+        public DateWrapper(int year,int month, int day){
+            this.year = year;
+            this.month = month;
+            this.day = day;
+        }
+    }
+    public class TimeWrapper {
+        public int hour;
+        public int minute;
+        public TimeWrapper(int hour, int minute){
+            this.hour = hour;
+            this.minute = minute;
+        }
+    }
     public static final int PICK_IMAGE_REQUEST = 1;
     public TextView mImageRecord = null;
     public Button mSelectFileButton = null;
@@ -41,6 +66,12 @@ public class EditPostActivity extends AppCompatActivity {
     public EditText mEditTitleView = null;
     public boolean isUpLoading = false;
     public EditText mEditDescriptionView = null;
+    public TextView mDateSelect = null;
+    public DateWrapper dateSelected = null;
+    public TextView mTimeSelect = null;
+    public TimeWrapper timeSelected = null;
+    public DatePickerDialog.OnDateSetListener mDateSetListener;
+    public TimePickerDialog.OnTimeSetListener mTimeSetListener;
     private ArrayList<Uri> mImageList = new ArrayList<>();
 
     @Override
@@ -66,6 +97,64 @@ public class EditPostActivity extends AppCompatActivity {
                 if (!EditPostActivity.this.isUpLoading){dealWithSubmitPost();}
             }
         });
+
+        mDateSelect = (TextView)findViewById(R.id.dateSelect);
+        mDateSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(
+                        EditPostActivity.this,
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        mDateSetListener,year,month,day
+                        );
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                month = month + 1;
+                Log.d("DATE: ", "onDateSet: mm/dd/yyy: " + month + "/" + day + "/" + year);
+
+                String date = month + "/" + day + "/" + year;
+                EditPostActivity.this.dateSelected = new DateWrapper(year,month,day);
+                mDateSelect.setText(date);
+            }
+        };
+        mTimeSelect = (TextView)findViewById(R.id.TimeSelect);
+        mTimeSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Calendar cal = Calendar.getInstance();
+                int hour = cal.get(Calendar.HOUR_OF_DAY);
+                int minute = cal.get(Calendar.MINUTE);
+
+                TimePickerDialog dialog = new TimePickerDialog(
+                        EditPostActivity.this,
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        mTimeSetListener,hour,minute,true
+                );
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+        mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                String time = hourOfDay+":"+minute;
+                EditPostActivity.this.timeSelected = new TimeWrapper(hourOfDay,minute);
+                EditPostActivity.this.mTimeSelect.setText(time);
+            }
+        };
+
+
     }
 
     //When submit button is clicked. begin submiting post
@@ -107,13 +196,19 @@ public class EditPostActivity extends AppCompatActivity {
         public String AuthorEmail;
         public String Title;
         public String Description;
+        public DateWrapper dateSelected;
+        public TimeWrapper timeSelected;
         public ArrayList<String> ImageUrlList;
-        public DB_Post(String AuthorEmail, String Title, String Description, ArrayList<String> ImageUrlList){
+        public ArrayList<String> DownloadUrls;
+
+        public DB_Post(String AuthorEmail, String Title, String Description, ArrayList<String> ImageUrlList,ArrayList<String> DownloadUrls,DateWrapper dw,TimeWrapper tw){
             this.AuthorEmail = AuthorEmail;
             this.Title = Title;
             this.Description = Description;
             this.ImageUrlList = ImageUrlList;
-            //this.DownloadUrls = DownloadUrls;
+            this.DownloadUrls = DownloadUrls;
+            this.dateSelected = dw;
+            this.timeSelected = tw;
         }
     }
 
@@ -163,7 +258,18 @@ public class EditPostActivity extends AppCompatActivity {
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         imageProgressChecker.set(0,imageProgressChecker.get(0)+1);
                         SubmitPostTask.this.pathUrls.add(actualUrl);
-                        //SubmitPostTask.this.DownloadUrls.add(taskSnapshot.)
+                        SubmitPostTask.this.db.mStorageRef.child(actualUrl).getDownloadUrl().
+                                addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        SubmitPostTask.this.DownloadUrls.add(uri.toString());
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                uploadFailure.set(0,true);
+                            }
+                        });
                     }
                 }).addOnFailureListener(new OnFailureListener(){
                     @Override
@@ -180,17 +286,22 @@ public class EditPostActivity extends AppCompatActivity {
             }
 
             // check if not all images are uploaded and no failures occur yet.
-            while (imageProgressChecker.get(0) < this.info.imageList.size() && !uploadFailure.get(0)){
-                continue;
+            while ((this.pathUrls.size() < this.info.imageList.size() || this.DownloadUrls.size() < this.info.imageList.size())&& !uploadFailure.get(0)){
+
             }
+            Log.d("Actual SHOULD SIZE: ",this.info.imageList.size()+"");
+            Log.d("PATH URL SIZE: ",this.pathUrls.size()+"");
+            Log.d("Download Url Size: ",this.DownloadUrls.size()+"");
             // exit, when images fail to upload.
             if (uploadFailure.get(0)){
                 return false;
             }
             Log.d("VE: SUCCESS,","IMAGE UPLOADED SUCCESSFULLY");
 
+
+
             // now begin uploading post.
-            DB_Post post = new DB_Post(info.email,info.postTitle,info.postDescription,this.pathUrls);
+            DB_Post post = new DB_Post(info.email,info.postTitle,info.postDescription,this.pathUrls,this.DownloadUrls,EditPostActivity.this.dateSelected,EditPostActivity.this.timeSelected);
             db.db.collection("Post").add(post).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {
