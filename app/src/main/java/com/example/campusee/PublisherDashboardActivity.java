@@ -31,7 +31,6 @@ public class PublisherDashboardActivity extends AppCompatActivity {
         String url = "https://firebasestorage.googleapis.com/v0/b/usccampusee.appspot.com/o/1572421100618.png?alt=media&token=4d658119-e4aa-478d-b6ec-3702aa246aa4";
         DB_util db = new DB_util();
         String anotherOne = "https://firebasestorage.googleapis.com/v0/b/usccampusee.appspot.com/o/1572482013887.jpg?alt=media&token=cf5304f7-2794-4bc8-b247-177b899ce365";
-        StorageReference pic = db.mStorageRef.child("1572421100618.png\n");
         Glide.with(getApplicationContext()).load(url).into(imageview);
         Glide.with(getApplicationContext()).load(anotherOne).into(imageview);
 

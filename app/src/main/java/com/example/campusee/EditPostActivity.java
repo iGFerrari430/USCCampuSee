@@ -149,7 +149,7 @@ public class EditPostActivity extends AppCompatActivity {
         mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                String time = hourOfDay+":"+minute;
+                String time = hourOfDay+":"+(minute < 10 ? "0" : "")+minute;
                 EditPostActivity.this.timeSelected = new TimeWrapper(hourOfDay,minute);
                 EditPostActivity.this.mTimeSelect.setText(time);
             }
@@ -298,7 +298,7 @@ public class EditPostActivity extends AppCompatActivity {
 
             // check if not all images are uploaded and no failures occur yet.
             while ((this.pathUrls.size() < this.info.imageList.size() || this.DownloadUrls.size() < this.info.imageList.size())&& !uploadFailure.get(0)){
-
+                continue;
             }
             Log.d("Actual SHOULD SIZE: ",this.info.imageList.size()+"");
             Log.d("PATH URL SIZE: ",this.pathUrls.size()+"");
