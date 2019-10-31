@@ -72,6 +72,7 @@ public class EditPostActivity extends AppCompatActivity {
     public TimeWrapper timeSelected = null;
     public DatePickerDialog.OnDateSetListener mDateSetListener;
     public TimePickerDialog.OnTimeSetListener mTimeSetListener;
+    public Button mClearPicture = null;
     private ArrayList<Uri> mImageList = new ArrayList<>();
 
     @Override
@@ -154,6 +155,13 @@ public class EditPostActivity extends AppCompatActivity {
             }
         };
 
+        mClearPicture = (Button)findViewById(R.id.ClearPicture);
+        mClearPicture.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                EditPostActivity.this.clearImages();
+            }
+        });
+
 
     }
 
@@ -190,7 +198,10 @@ public class EditPostActivity extends AppCompatActivity {
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
-
+    public void clearImages() {
+        mImageRecord.setText("No Pictures Chosen");
+        mImageList.clear();
+    }
     // this is simply a wrapper of the information we try to send to Cloud Firestore.
     public class DB_Post {
         public String AuthorEmail;
