@@ -136,7 +136,6 @@ public class SignUpActivity extends AppCompatActivity {
 
             Query query = col.whereEqualTo("Email",user.email);
             Log.d("EXCITED!!!","VE");
-
             final ArrayList<DocumentSnapshot> shots = new ArrayList<>();
             query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>(){
                 @Override

@@ -40,24 +40,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 public class EditPostActivity extends AppCompatActivity {
-    public class DateWrapper {
-        public int year;
-        public int month;
-        public int day;
-        public DateWrapper(int year,int month, int day){
-            this.year = year;
-            this.month = month;
-            this.day = day;
-        }
-    }
-    public class TimeWrapper {
-        public int hour;
-        public int minute;
-        public TimeWrapper(int hour, int minute){
-            this.hour = hour;
-            this.minute = minute;
-        }
-    }
+
     public static final int PICK_IMAGE_REQUEST = 1;
     public TextView mImageRecord = null;
     public Button mSelectFileButton = null;
@@ -202,27 +185,6 @@ public class EditPostActivity extends AppCompatActivity {
         mImageRecord.setText("No Pictures Chosen");
         mImageList.clear();
     }
-    // this is simply a wrapper of the information we try to send to Cloud Firestore.
-    public class DB_Post {
-        public String AuthorEmail;
-        public String Title;
-        public String Description;
-        public DateWrapper dateSelected;
-        public TimeWrapper timeSelected;
-        public ArrayList<String> ImageUrlList;
-        public ArrayList<String> DownloadUrls;
-
-        public DB_Post(String AuthorEmail, String Title, String Description, ArrayList<String> ImageUrlList,ArrayList<String> DownloadUrls,DateWrapper dw,TimeWrapper tw){
-            this.AuthorEmail = AuthorEmail;
-            this.Title = Title;
-            this.Description = Description;
-            this.ImageUrlList = ImageUrlList;
-            this.DownloadUrls = DownloadUrls;
-            this.dateSelected = dw;
-            this.timeSelected = tw;
-        }
-    }
-
     // Here, we submit the post/images to firebase in the background.
     public class SubmitPostTask extends AsyncTask<Void,Void,Boolean> {
         private ArrayList<String> pathUrls = new ArrayList<>();

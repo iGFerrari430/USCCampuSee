@@ -1,59 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/holo_blue_light"
+    android:layout_height="wrap_content"
+    android:fillViewport="false"
     tools:context=".PublisherDashboardActivity">
 
-    <TextView
-        android:id="@+id/myPost"
-        android:layout_width="300dp"
-        android:layout_height="140dp"
-        android:fontFamily="monospace"
-        android:gravity="center"
-        android:text="My Posts"
-        android:textSize="36sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.027" />
+    <LinearLayout
+        android:id="@+id/pubLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="150dp">
 
-    <TableRow
-        android:id="@+id/tableRow"
-        android:layout_width="368dp"
-        android:layout_height="389dp"
-        app:layout_constraintBottom_toTopOf="@+id/addPost"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myPost" >
-
-        <ImageView
-            android:id="@+id/imageView"
+        <TextView
+            android:id="@+id/textView2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
-    </TableRow>
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="30dp"
+            android:paddingBottom="30dp"
+            android:text="Dashboard"
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/addPost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#33FFFFFF"
-        android:onClick="onClickCreatePost"
-        android:text="add post"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.938" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onClickCreatePost"
+            android:text="ADD POST" />
+    </LinearLayout>
+</ScrollView>

@@ -11,6 +11,7 @@ public class DB_util {
     public FirebaseFirestore db = null;
     public CollectionReference publisherCollection = null;
     public CollectionReference userCollection = null;
+    public CollectionReference postCollection = null;
     public StorageReference mStorageRef = null;
     public DB_util() {
         this.db = FirebaseFirestore.getInstance();
@@ -22,6 +23,7 @@ public class DB_util {
         this.publisherCollection = db.collection("Publisher");
         this.userCollection = db.collection("NormalUser");
         this.mStorageRef = FirebaseStorage.getInstance().getReference();
+        this.postCollection = db.collection("Post");
     }
 
 
