@@ -7,6 +7,48 @@
     android:background="@android:color/holo_blue_light"
     tools:context=".NormalUserDashboardActivity">
 
+    <Button
+        android:id="@+id/viewpublishers"
+        android:layout_width="413dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="272dp"
+        android:background="#33FFFFFF"
+        android:text="View Publishers"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.002" />
+
+    <Button
+        android:id="@+id/viewenotices"
+        android:layout_width="413dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="272dp"
+        android:background="#33FFFFFF"
+        android:text="View Notices"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.627" />
+
+    <Button
+        android:id="@+id/viewevents"
+        android:layout_width="413dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="272dp"
+        android:background="#33FFFFFF"
+        android:text="View Events"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.3" />
+
     <TextView
         android:id="@+id/follow"
         android:layout_width="300dp"
@@ -22,18 +64,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.027" />
 
-    <TableRow
-        android:id="@+id/tableRow"
-        android:layout_width="368dp"
-        android:layout_height="389dp"
-        android:layout_marginBottom="40dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.488"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.715" />
-
     <Button
         android:id="@+id/addPost2"
         android:layout_width="wrap_content"
@@ -47,4 +77,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.938" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
