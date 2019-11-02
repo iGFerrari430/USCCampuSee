@@ -30,5 +30,13 @@
             android:layout_height="wrap_content"
             android:onClick="onClickCreatePost"
             android:text="ADD POST" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Your Posts:"
+            android:textSize="24sp" />
     </LinearLayout>
 </ScrollView>

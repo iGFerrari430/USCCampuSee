@@ -153,6 +153,21 @@ public class EditPostActivity extends AppCompatActivity {
         String email = getIntent().getStringExtra("Email");
         String title = this.mEditTitleView.getText().toString();
         String description = this.mEditDescriptionView.getText().toString();
+        if (title.trim().isEmpty()){
+            Toast.makeText(this, "Please fill in title", Toast.LENGTH_LONG).show();
+            return;
+        }
+        else if (description.trim().isEmpty()){
+            Toast.makeText(this, "Please fill in description", Toast.LENGTH_LONG).show();
+            return;
+        }else if (this.dateSelected == null){
+            Toast.makeText(this, "Please select date", Toast.LENGTH_LONG).show();
+            return;
+        }
+        else if (this.timeSelected == null){
+            Toast.makeText(this, "Please select time", Toast.LENGTH_LONG).show();
+            return;
+        }
         PostInfo info = new PostInfo(email,description,title,this.mImageList);
         SubmitPostTask task = new SubmitPostTask(this.db,info);
         task.execute();
@@ -304,6 +319,9 @@ public class EditPostActivity extends AppCompatActivity {
             if (result){
                 Log.d("可以了","过了");
                 Toast.makeText(EditPostActivity.this, "Submit Success", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(EditPostActivity.this,PublisherDashboardActivity.class);
+                intent.putExtra("Email",this.email);
+                startActivity(intent);
             }else{
                 Log.d("最后通知","挂了");
                 Toast.makeText(EditPostActivity.this, "FAIL TO SUBMIT. TRY AGAIN!", Toast.LENGTH_LONG).show();
