@@ -272,9 +272,10 @@ public class EditPostActivity extends AppCompatActivity {
             Log.d("VE: SUCCESS,","IMAGE UPLOADED SUCCESSFULLY");
 
 
-
+            DateWrapper dw = EditPostActivity.this.dateSelected;
+            TimeWrapper tw = EditPostActivity.this.timeSelected;
             // now begin uploading post.
-            DB_Post post = new DB_Post(info.email,info.postTitle,info.postDescription,this.pathUrls,this.DownloadUrls,EditPostActivity.this.dateSelected,EditPostActivity.this.timeSelected);
+            DB_Post post = new DB_Post(info.email,info.postTitle,info.postDescription,this.pathUrls,this.DownloadUrls,dw.year,dw.month,dw.day,tw.hour,tw.minute);
             db.db.collection("Post").add(post).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {

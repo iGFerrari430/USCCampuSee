@@ -5,9 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActionBar;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -53,17 +58,58 @@ public class PublisherDashboardActivity extends AppCompatActivity {
     }
 
     public void displayPosts(){
-        for (DB_Post post : mPosts){
+        for (final DB_Post post : mPosts){
             TextView txt1 = new TextView(this);
-            LinearLayout.LayoutParams linearParams = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            );
             txt1.setText(post.Title);
             //txt1.setId()
+            LinearLayout.LayoutParams linearParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT
+            );
+            linearParams.setMargins(20,20,20,20);
+            txt1.setLayoutParams(linearParams);
+
+            txt1.setTextSize(TypedValue.COMPLEX_UNIT_SP,24);
+            txt1.setTypeface(null, Typeface.BOLD);
+            txt1.setTextColor(Color.parseColor("#0000FF"));
+
+            txt1.setGravity(Gravity.CENTER);
+            txt1.setPaintFlags(txt1.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
             linearLayout.addView(txt1);
+            txt1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    /*
+                    Intent intent = new Intent(PublisherDashboardActivity.this,EventDetail.class);
+                    intent.putExtra("post",post);
+                    startActivity(intent);*/
+                    ToNextActivity nTask = new ToNextActivity(post);
+                    nTask.execute();
+                }
+            });
+
         }
     }
+
+    public class ToNextActivity extends AsyncTask<Void,Void,Void> {
+        public DB_Post mPost = null;
+        public ToNextActivity(DB_Post post){
+            mPost = post;
+        }
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+        @Override
+        protected Void doInBackground(Void... users) {
+            Intent intent = new Intent(PublisherDashboardActivity.this,EventDetail.class);
+            intent.putExtra("post",mPost);
+            startActivity(intent);
+            return (Void)null;
+        }
+    }
+
 
     public class GetPostsTask extends AsyncTask<Void,Void,Boolean> {
         DB_util db = null;
