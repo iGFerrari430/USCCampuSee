@@ -52,8 +52,8 @@ public class DB_Post implements Parcelable {
         this.Title = in.readString();
         this.Description = in.readString();
         //this.dateSelected
-        in.readStringList(ImageUrlList);
-        in.readStringList(DownloadUrls);
+        this.ImageUrlList = in.readArrayList(null);
+        this.DownloadUrls = in.readArrayList(null);
         this.year = in.readInt();
         this.month = in.readInt();
         this.day = in.readInt();
@@ -69,8 +69,8 @@ public class DB_Post implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest,int flags){
-        dest.writeStringList(ImageUrlList);
-        dest.writeStringList(DownloadUrls);
+        dest.writeList(ImageUrlList);
+        dest.writeList(DownloadUrls);
         dest.writeString(AuthorEmail);
         dest.writeString(Title);
         dest.writeString(Description);
@@ -85,7 +85,7 @@ public class DB_Post implements Parcelable {
     public String toString() {
         return "DB_Post{" + " DownloadUrllist= "+DownloadUrls.toString()+"\n"+
                 " ImageUrls: " +ImageUrlList.toString()+"\n"+
-                " year: "+year+" AuthorEmail: "+AuthorEmail+
+                " year: "+year+" AuthorEmail: "+AuthorEmail.toString()+
                 " Rest are ignored";
     }
 }

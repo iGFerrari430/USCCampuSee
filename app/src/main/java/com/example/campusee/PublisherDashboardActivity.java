@@ -59,6 +59,7 @@ public class PublisherDashboardActivity extends AppCompatActivity {
 
     public void displayPosts(){
         for (final DB_Post post : mPosts){
+            Log.d("CHECK SIZE: ",post.DownloadUrls.toString());
             TextView txt1 = new TextView(this);
             txt1.setText(post.Title);
             //txt1.setId()
