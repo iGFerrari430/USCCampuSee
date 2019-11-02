@@ -105,7 +105,7 @@ public class PublisherDashboardActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... users) {
             Intent intent = new Intent(PublisherDashboardActivity.this,EventDetail.class);
-            intent.putStringArrayListExtra("ImageUrls",mPost.ImageUrlList);
+            intent.putStringArrayListExtra("ImageUrls",mPost.DownloadUrls);
             intent.putExtra("AuthorEmail",mPost.AuthorEmail);
             intent.putExtra("Title",mPost.Title);
             intent.putExtra("Description",mPost.Description);
