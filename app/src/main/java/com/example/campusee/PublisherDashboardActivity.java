@@ -80,10 +80,10 @@ public class PublisherDashboardActivity extends AppCompatActivity {
             txt1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    /*
+
                     Intent intent = new Intent(PublisherDashboardActivity.this,EventDetail.class);
                     intent.putExtra("post",post);
-                    startActivity(intent);*/
+                    startActivity(intent);
                     ToNextActivity nTask = new ToNextActivity(post);
                     nTask.execute();
                 }
