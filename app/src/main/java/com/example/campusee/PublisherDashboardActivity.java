@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.events.Publisher;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
@@ -121,9 +122,11 @@ public class PublisherDashboardActivity extends AppCompatActivity {
 
 
     public class GetPostsTask extends AsyncTask<Void,Void,Boolean> {
-        DB_util db = null;
+        public DB_util db = null;
+        public String mEmail = null;
         public GetPostsTask(){
             this.db = PublisherDashboardActivity.this.db;
+            this.mEmail = PublisherDashboardActivity.this.mEmail;
         }
 
         @Override
@@ -138,8 +141,8 @@ public class PublisherDashboardActivity extends AppCompatActivity {
             final ArrayList<Boolean> res = new ArrayList();
             complete.add(false);
             res.add(true);
-            Query query = col.whereEqualTo("AuthorEmail",mEmail);
-            Log.d("EMAIL IS: ",mEmail);
+            Query query = col.whereEqualTo("AuthorEmail", mEmail);
+            //Log.d("EMAIL IS: ",mEmail);
             query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>(){
                 @Override
                 public void onSuccess(QuerySnapshot queryDocumentSnapshots){

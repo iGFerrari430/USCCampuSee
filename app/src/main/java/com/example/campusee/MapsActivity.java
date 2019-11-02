@@ -1,5 +1,5 @@
 package com.example.campusee;
-
+/*
 import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.FragmentActivity;
 
@@ -242,5 +242,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 }
-
+*/
 

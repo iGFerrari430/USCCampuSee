@@ -210,6 +210,7 @@ public class EditPostActivity extends AppCompatActivity {
         public SubmitPostTask(DB_util db, PostInfo info){
             this.db = db;
             this.info = info;
+            this.email = info.email;
         }
 
         @Override
