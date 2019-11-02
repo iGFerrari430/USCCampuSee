@@ -80,10 +80,10 @@ public class PublisherDashboardActivity extends AppCompatActivity {
             txt1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    /*
                     Intent intent = new Intent(PublisherDashboardActivity.this,EventDetail.class);
                     intent.putExtra("post",post);
-                    startActivity(intent);
+                    startActivity(intent);*/
                     ToNextActivity nTask = new ToNextActivity(post);
                     nTask.execute();
                 }
@@ -105,7 +105,15 @@ public class PublisherDashboardActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... users) {
             Intent intent = new Intent(PublisherDashboardActivity.this,EventDetail.class);
-            intent.putExtra("post",mPost);
+            intent.putStringArrayListExtra("ImageUrls",mPost.ImageUrlList);
+            intent.putExtra("AuthorEmail",mPost.AuthorEmail);
+            intent.putExtra("Title",mPost.Title);
+            intent.putExtra("Description",mPost.Description);
+            intent.putExtra("year",mPost.year);
+            intent.putExtra("month",mPost.month);
+            intent.putExtra("day",mPost.day);
+            intent.putExtra("hour",mPost.hour);
+            intent.putExtra("minute",mPost.minute);
             startActivity(intent);
             return (Void)null;
         }
