@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,10 @@ public class NormalUserDashboardActivity extends AppCompatActivity {
         String email = intent.getStringExtra("Email");
         TextView textView=(TextView)findViewById(R.id.follow);
         textView.setText("Welcome to NormalUserDashboard, "+email+" !");
+    }
+    public void switchtoUserEventList(View view) {
+        Intent intent = new Intent(this,UserEventList.class);
+        startActivity(intent);
     }
 
 

@@ -41,6 +41,7 @@
         android:layout_height="80dp"
         android:layout_marginTop="272dp"
         android:background="#33FFFFFF"
+        android:onClick="switchtoUserEventList"
         android:text="View Events"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
