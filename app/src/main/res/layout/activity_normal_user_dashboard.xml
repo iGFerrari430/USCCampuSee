@@ -13,6 +13,7 @@
         android:layout_height="80dp"
         android:layout_marginTop="272dp"
         android:background="#33FFFFFF"
+        android:onClick="switchtoUserPublisherList"
         android:text="View Publishers"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"

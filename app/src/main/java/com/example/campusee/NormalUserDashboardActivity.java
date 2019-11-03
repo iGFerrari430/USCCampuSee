@@ -37,6 +37,10 @@ public class NormalUserDashboardActivity extends AppCompatActivity {
         Intent intent = new Intent(this,UserEventList.class);
         startActivity(intent);
     }
+    public void switchtoUserPublisherList(View view) {
+        Intent intent = new Intent(this, UserPublisherList.class);
+        startActivity(intent);
+    }
 
 
 }
