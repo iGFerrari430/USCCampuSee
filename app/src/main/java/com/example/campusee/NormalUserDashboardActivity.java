@@ -22,14 +22,14 @@ import com.google.firebase.storage.UploadTask;
 import java.util.ArrayList;
 
 public class NormalUserDashboardActivity extends AppCompatActivity {
-
+    private String email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_normal_user_dashboard);
 
         Intent intent = getIntent();
-        String email = intent.getStringExtra("Email");
+        this.email = intent.getStringExtra("Email");
         TextView textView=(TextView)findViewById(R.id.follow);
         textView.setText("Welcome to NormalUserDashboard, "+email+" !");
     }
@@ -39,6 +39,7 @@ public class NormalUserDashboardActivity extends AppCompatActivity {
     }
     public void switchtoUserPublisherList(View view) {
         Intent intent = new Intent(this, UserPublisherList.class);
+        intent.putExtra("Email", this.email);
         startActivity(intent);
     }
 
