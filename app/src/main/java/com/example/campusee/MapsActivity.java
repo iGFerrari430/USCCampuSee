@@ -104,8 +104,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void initArea(){
         area = new ArrayList<>();
         area.add(new LatLng(37.422,-122.044));
-        area.add(new LatLng(37.422,-123.044));
-        area.add(new LatLng(37.422,-124.044));
+        area.add(new LatLng(37.422,-122.144));
+        area.add(new LatLng(37.422,-122.244));
     }
 
     private void settingGeoFire(){
@@ -125,18 +125,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void buildLocationCallBack(){
         locationCallback = new LocationCallback(){
             @Override
-            public void onLocationResult(LocationResult locationResult)
+            public void onLocationResult(final LocationResult locationResult)
             {
                 if(mMap != null)
                 {
-                    if(currentUser != null) currentUser.remove();
-                    currentUser = mMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(locationResult.getLastLocation().getLatitude(),
-                            locationResult.getLastLocation().getLongitude()))
-                    .title("You"));
-                    //after add marker, move camera
-                    mMap.animateCamera(CameraUpdateFactory
-                    .newLatLngZoom (currentUser.getPosition(),12.0f));
+                    geoFire.setLocation("You", new GeoLocation(locationResult.getLastLocation().getLatitude(),
+                            locationResult.getLastLocation().getLongitude()), new GeoFire.CompletionListener() {
+                        @Override
+                        public void onComplete(String key, DatabaseError error) {
+                            if(currentUser != null) currentUser.remove();
+                            currentUser = mMap.addMarker(new MarkerOptions()
+                                    .position(new LatLng(locationResult.getLastLocation().getLatitude(),
+                                            locationResult.getLastLocation().getLongitude()))
+                                    .title("You"));
+                            //after add marker, move camera
+                            mMap.animateCamera(CameraUpdateFactory
+                                    .newLatLngZoom (currentUser.getPosition(),12.0f));
+                        }
+                    });
                 }
             }
         };
@@ -146,39 +152,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+//        LatLng sydney = new LatLng(-34, 151);
+//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
 
-//        mMap.getUiSettings().setZoomControlsEnabled(true);
-//        if(fusedLocationProviderClient != null) {
-//
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//
-//                if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-//                        && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-//                    return;
-//                }
-//
-//            }
-//        }
-//        fusedLocationProviderClient.requestLocationUpdates(locationRequest,locationCallback,Looper.myLooper());
-//
-//        //add circle for area
-//        for(LatLng latLng : area)
-//        {
-//            mMap.addCircle(new CircleOptions().center(latLng)
-//                    .radius(500)
-//                    .strokeColor(Color.BLUE)
-//                    .fillColor(0x220000FF)
-//                    .strokeWidth(5.0f)
-//            );
-//
-//            //geoquery
-//            GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(latLng.latitude,latLng.longitude),0.5f);
-//            geoQuery.addGeoQueryEventListener(MapsActivity.this);
-//        }
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        if(fusedLocationProviderClient != null) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+                if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                        && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                    return;
+                }
+
+            }
+        }
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest,locationCallback,Looper.myLooper());
+
+        //add circle for area
+        for(LatLng latLng : area)
+        {
+            mMap.addCircle(new CircleOptions().center(latLng)
+                    .radius(500)
+                    .strokeColor(Color.BLUE)
+                    .fillColor(0x220000FF)
+                    .strokeWidth(5.0f)
+            );
+
+            //geoquery
+            GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(latLng.latitude,latLng.longitude),0.5f);
+            geoQuery.addGeoQueryEventListener(MapsActivity.this);
+        }
     }
 
     @Override
@@ -213,6 +219,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void sendNotification(String title, String content) {
+        Toast.makeText(this,""+content,Toast.LENGTH_SHORT).show();
+
         String NOTIFICATION_CHANNEL_ID = "edmt_multiple_location";
         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -241,6 +249,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         notificationManager.notify(new Random().nextInt(),notification);
 
     }
+
+
 }
-*/
+
+ */
+
 
