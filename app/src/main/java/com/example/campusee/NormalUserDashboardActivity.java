@@ -35,6 +35,7 @@ public class NormalUserDashboardActivity extends AppCompatActivity {
     }
     public void switchtoUserEventList(View view) {
         Intent intent = new Intent(this,UserEventList.class);
+        intent.putExtra("Email", this.email);
         startActivity(intent);
     }
     public void switchtoUserPublisherList(View view) {

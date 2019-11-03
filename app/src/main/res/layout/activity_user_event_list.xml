@@ -6,4 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".UserEventList">
 
+    <TextView
+        android:id="@+id/eventlist"
+        android:layout_width="247dp"
+        android:layout_height="117dp"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="99dp"
+        tools:layout_editor_absoluteY="69dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
