@@ -24,7 +24,6 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
 
@@ -143,10 +142,13 @@ public class SignUpActivity extends AppCompatActivity {
                     if (shots.size() > 0){
                         complete.set(0,true);
                     }else{
-                        HashMap<String,String> map = new HashMap<>();
-                        map.put("Email",user.email);
-                        map.put("Password",user.password);
-                        collection.add(map).addOnCompleteListener(new OnCompleteListener<DocumentReference>(){
+//                        HashMap<String,String> map = new HashMap<>();
+//                        map.put("Email",user.email);
+//                        map.put("Password",user.password);
+                        String email = user.email;
+                        String password = user.password;
+                        DB_User user = new DB_User(email,password);
+                        collection.add(user).addOnCompleteListener(new OnCompleteListener<DocumentReference>(){
                             @Override
                             public void onComplete(@NonNull Task<DocumentReference> task){
                                 res.set(0,true);

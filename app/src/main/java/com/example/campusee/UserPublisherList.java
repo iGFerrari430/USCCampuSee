@@ -85,6 +85,7 @@ public class UserPublisherList extends AppCompatActivity {
             txt1.setGravity(Gravity.CENTER);
             txt1.setPaintFlags(txt1.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
             linearLayout.addView(txt1);
+            //TODO: Follow and new QueryDB
         }
     }
 }
