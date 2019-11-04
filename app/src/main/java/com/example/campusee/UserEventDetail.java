@@ -2,7 +2,9 @@ package com.example.campusee;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 public class UserEventDetail extends AppCompatActivity {
@@ -22,5 +24,10 @@ public class UserEventDetail extends AppCompatActivity {
         ((TextView)findViewById(R.id.event_time)).setText(time);
         String email = "Contact " + intent.getString("AuthorEmail") + " if you have any questions";
         ((TextView)findViewById(R.id.event_email)).setText(email);
+    }
+
+    public void switchToSubscribee(View view) {
+        TextView textView=(TextView)findViewById(R.id.subscribe);
+        textView.setText("unsubscribe");
     }
 }
