@@ -97,7 +97,7 @@ public class UserEventList extends AppCompatActivity {
         }
         @Override
         protected Void doInBackground(Void... users) {
-            Intent intent = new Intent(UserEventList.this,EventDetail.class);
+            Intent intent = new Intent(UserEventList.this,UserEventDetail.class);
             intent.putStringArrayListExtra("ImageUrls",mPost.DownloadUrls);
             intent.putExtra("AuthorEmail",mPost.AuthorEmail);
             intent.putExtra("Title",mPost.Title);
