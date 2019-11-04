@@ -133,8 +133,10 @@ public class UserEventList extends AppCompatActivity {
             final ArrayList<Boolean> res = new ArrayList();
             complete.add(false);
             res.add(true);
-            Query query = col.whereEqualTo("AuthorEmail", mEmail);
+//            Query query = col.whereEqualTo("AuthorEmail", mEmail);
+
             //Log.d("EMAIL IS: ",mEmail);
+            Query query = col;
             query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>(){
                 @Override
                 public void onSuccess(QuerySnapshot queryDocumentSnapshots){

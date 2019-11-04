@@ -3,7 +3,6 @@ package com.example.campusee;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -14,22 +13,16 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.events.Publisher;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.StorageReference;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class PublisherDashboardActivity extends AppCompatActivity {
@@ -45,7 +38,7 @@ public class PublisherDashboardActivity extends AppCompatActivity {
         Intent intent = getIntent();
         mEmail = intent.getStringExtra("Email");
         Log.d("see see content? ","see see content");
-        linearLayout = (LinearLayout)findViewById(R.id.pubLinearLayout);
+        linearLayout = (LinearLayout)findViewById(R.id.userLinearLayout);
         GetPostsTask task = new GetPostsTask();
         task.execute((Void)null);
         /*

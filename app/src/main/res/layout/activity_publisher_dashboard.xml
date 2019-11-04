@@ -7,14 +7,14 @@
     tools:context=".PublisherDashboardActivity">
 
     <LinearLayout
-        android:id="@+id/pubLinearLayout"
+        android:id="@+id/userLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingBottom="150dp">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/eventlist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
