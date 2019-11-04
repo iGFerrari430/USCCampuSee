@@ -57,12 +57,23 @@ public class EditPostActivity extends AppCompatActivity {
     public TimePickerDialog.OnTimeSetListener mTimeSetListener;
     public Button mClearPicture = null;
     private ArrayList<Uri> mImageList = new ArrayList<>();
+    public int mActivity = 0;
+    public int mDay = -1;
+    public int mMonth = -1;
+    public int mYear = -1;
+    public int mHour = -1;
+    public int mMinute = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_post);
-
+        Intent intent = getIntent();
+        mActivity = intent.getIntExtra("activity", 1);
+        if (mActivity == 2) {
+            ((EditText)findViewById(R.id.editTitle)).setText(intent.getStringExtra("title"));
+            ((EditText)findViewById(R.id.editDescription)).setText(intent.getStringExtra("description"));
+        }
         mImageRecord = (TextView)findViewById(R.id.PictureDescription);
         mSelectFileButton = (Button)findViewById(R.id.AddPictureButton);
         mSubmitButton = (Button)findViewById(R.id.SubmitPost);
@@ -83,10 +94,18 @@ public class EditPostActivity extends AppCompatActivity {
         });
 
         mDateSelect = (TextView)findViewById(R.id.dateSelect);
+        if (mActivity == 2) {
+            mMonth = intent.getIntExtra("month", 0);
+            mDay = intent.getIntExtra("day", 0);
+            mYear = intent.getIntExtra("year", 0);
+            mDateSelect.setText("" + mMonth + "/" + mDay + "/" + mYear);
+        }
         mDateSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Calendar cal = Calendar.getInstance();
+                mMonth--;
+                cal.set(mYear, mMonth, mDay);
                 int year = cal.get(Calendar.YEAR);
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DAY_OF_MONTH);
@@ -113,10 +132,17 @@ public class EditPostActivity extends AppCompatActivity {
             }
         };
         mTimeSelect = (TextView)findViewById(R.id.TimeSelect);
+        if (mActivity == 2) {
+            mHour = intent.getIntExtra("hour", 0);
+            mMinute = intent.getIntExtra("minute", 0);
+            mTimeSelect.setText("" + mHour + ":" + mMinute);
+        }
         mTimeSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.HOUR_OF_DAY, mHour);
+                cal.set(Calendar.MINUTE, mMinute);
                 int hour = cal.get(Calendar.HOUR_OF_DAY);
                 int minute = cal.get(Calendar.MINUTE);
 
@@ -292,19 +318,23 @@ public class EditPostActivity extends AppCompatActivity {
             TimeWrapper tw = EditPostActivity.this.timeSelected;
             // now begin uploading post.
             DB_Post post = new DB_Post(info.email,info.postTitle,info.postDescription,this.pathUrls,this.DownloadUrls,dw.year,dw.month,dw.day,tw.hour,tw.minute);
-            db.db.collection("Post").add(post).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                @Override
-                public void onSuccess(DocumentReference documentReference) {
-                    completeChecker.set(0,true);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    completeChecker.set(0,true);
-                    uploadFailure.set(0,true);
-                    Log.d("啥情况,","怎么挂了post?");
-                }
-            });
+//            if (mActivity == 1) {
+                db.db.collection("Post").add(post).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        completeChecker.set(0, true);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        completeChecker.set(0, true);
+                        uploadFailure.set(0, true);
+                        Log.d("啥情况,", "怎么挂了post?");
+                    }
+                });
+//            } else if (mActivity == 2) {
+//                db.db.collection("Post").
+//            }
 
             // don't exit when posts are being uploaded.
 
