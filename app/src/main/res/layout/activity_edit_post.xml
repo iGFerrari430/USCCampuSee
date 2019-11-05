@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:background="@android:color/holo_blue_light"
         android:orientation="vertical"
-        android:paddingBottom="150dp">
+        android:paddingBottom="300dp">
 
         <TextView
             android:id="@+id/loginscrn"
@@ -88,6 +88,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
+            android:background="#33FFFFFF"
             android:text="Add Picture" />
 
         <Button
@@ -96,6 +97,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
+            android:background="#33FFFFFF"
             android:text="Clear Selected Pictures"
             tools:text="Clear Selected Pictures" />
 
@@ -106,6 +108,7 @@
             android:layout_marginLeft="30dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="30dp"
+            android:background="#33FFFFFF"
             android:text="Submit Post" />
 
         <Spinner

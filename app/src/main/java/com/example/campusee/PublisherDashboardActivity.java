@@ -174,4 +174,10 @@ public class PublisherDashboardActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void switchToMain(View view) {
+        // Do something in response to button
+        Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
+    }
+
 }

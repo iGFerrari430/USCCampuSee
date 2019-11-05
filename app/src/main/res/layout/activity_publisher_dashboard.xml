@@ -10,8 +10,17 @@
         android:id="@+id/userLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/holo_blue_light"
         android:orientation="vertical"
-        android:paddingBottom="150dp">
+        android:paddingBottom="600dp">
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#33FFFFFF"
+            android:onClick="switchToMain"
+            android:text="Log out" />
 
         <TextView
             android:id="@+id/eventlist"
@@ -28,6 +37,7 @@
             android:id="@+id/button4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#33FFFFFF"
             android:onClick="onClickCreatePost"
             android:text="ADD POST" />
 
