@@ -114,6 +114,35 @@ public class UserEventDetail extends AppCompatActivity {
                 });
     }
 
+    public void deletePostFirebase() {
+        this.db.userCollection
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        List<String> userSubscribedPost =  new ArrayList<>();
+                        if (task.isSuccessful()) {
+                            Log.d("precheck:", userEmail);
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                DB_User user = document.toObject(DB_User.class);
+                                Log.d("precheck2:", (user.Email));
+                                if (user.Email.equals(userEmail)) {
+//                                    userSubscribedPost = user.subPost;
+//                                    Log.d("zuibadudu:", user.Email);
+                                    String uniqueId = document.getId();
+                                    user.subPost.remove(postTitle);
+                                    db.userCollection.document(uniqueId).update("subPost", user.subPost);
+
+                                }
+
+                            }
+                        } else {
+                            Log.d("Error documents: ", "Something wrong in query firebase");
+                        }
+                    }
+                });
+    }
+
     public void switchToSubscribee(View view) {
         TextView textView=(TextView)findViewById(R.id.subscribe);
         String curr = textView.getText().toString();
@@ -122,6 +151,10 @@ public class UserEventDetail extends AppCompatActivity {
             Log.d("Current Stat:", curr);
             addPostFirebase();
             textView.setText("unsubscribe");
+        } else {
+            Log.d("Current Stat:", curr);
+            deletePostFirebase();
+            textView.setText("subscribe");
         }
 
     }
