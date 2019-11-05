@@ -36,7 +36,7 @@ public class EventDetail extends AppCompatActivity {
         minute = intent.getInt("minute");
         description = intent.getString("Description");
         ((TextView)findViewById(R.id.event_title)).setText(title);
-        ((TextView)findViewById(R.id.event_description)).setText(description);
+        ((TextView)findViewById(R.id.event_description)).setText("Description: " + description);
         String date = String.format("Date: %02d.%02d.%4d", month, day, year);
         ((TextView)findViewById(R.id.event_date)).setText(date);
         String time = String.format("Time: %02d : %02d", hour, minute);

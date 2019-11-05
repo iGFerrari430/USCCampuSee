@@ -93,17 +93,22 @@ public class EditPostActivity extends AppCompatActivity {
             mDay = intent.getIntExtra("day", 0);
             mYear = intent.getIntExtra("year", 0);
             mDateSelect.setText("" + mMonth + "/" + mDay + "/" + mYear);
+            EditPostActivity.this.dateSelected = new DateWrapper(mYear,mMonth,mDay);
+
         }
         mDateSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Calendar cal = Calendar.getInstance();
-                mMonth--;
-                cal.set(mYear, mMonth, mDay);
+                if (mActivity == 2) {
+                    mMonth--;
+                    cal.set(mYear, mMonth, mDay);
+                } else if (mActivity ==1) {
+                    cal.set(2019, 0, 1);
+                }
                 int year = cal.get(Calendar.YEAR);
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DAY_OF_MONTH);
-
                 DatePickerDialog dialog = new DatePickerDialog(
                         EditPostActivity.this,
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
@@ -130,6 +135,7 @@ public class EditPostActivity extends AppCompatActivity {
             mHour = intent.getIntExtra("hour", 0);
             mMinute = intent.getIntExtra("minute", 0);
             mTimeSelect.setText("" + mHour + ":" + mMinute);
+            EditPostActivity.this.timeSelected = new TimeWrapper(mHour,mMinute);
         }
         mTimeSelect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,20 +179,28 @@ public class EditPostActivity extends AppCompatActivity {
         String email = getIntent().getStringExtra("Email");
         String title = this.mEditTitleView.getText().toString();
         String description = this.mEditDescriptionView.getText().toString();
-        if (title.trim().isEmpty()){
-            Toast.makeText(this, "Please fill in title", Toast.LENGTH_LONG).show();
-            return;
-        }
-        else if (description.trim().isEmpty()){
-            Toast.makeText(this, "Please fill in description", Toast.LENGTH_LONG).show();
-            return;
-        }else if (this.dateSelected == null){
-            Toast.makeText(this, "Please select date", Toast.LENGTH_LONG).show();
-            return;
-        }
-        else if (this.timeSelected == null){
-            Toast.makeText(this, "Please select time", Toast.LENGTH_LONG).show();
-            return;
+        if (mActivity == 1) {
+            if (title.trim().isEmpty()) {
+                Toast.makeText(this, "Please fill in title", Toast.LENGTH_LONG).show();
+                return;
+            } else if (description.trim().isEmpty()) {
+                Toast.makeText(this, "Please fill in description", Toast.LENGTH_LONG).show();
+                return;
+            } else if (this.dateSelected == null) {
+                Toast.makeText(this, "Please select date", Toast.LENGTH_LONG).show();
+                return;
+            } else if (this.timeSelected == null) {
+                Toast.makeText(this, "Please select time", Toast.LENGTH_LONG).show();
+                return;
+            }
+        } else if (mActivity == 2) {
+            if (title.trim().isEmpty()) {
+                Toast.makeText(this, "Please fill in title", Toast.LENGTH_LONG).show();
+                return;
+            } else if (description.trim().isEmpty()) {
+                Toast.makeText(this, "Please fill in description", Toast.LENGTH_LONG).show();
+                return;
+            }
         }
         PostInfo info = new PostInfo(email,description,title,this.mImageList);
         SubmitPostTask task = new SubmitPostTask(this.db,info);
