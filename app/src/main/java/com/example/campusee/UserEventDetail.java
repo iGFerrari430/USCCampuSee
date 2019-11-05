@@ -21,6 +21,7 @@ public class UserEventDetail extends AppCompatActivity {
     public DB_Post mEvent = null;
     public DB_util db = null;
     public String userEmail = null;
+    public String postTitle = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,7 @@ public class UserEventDetail extends AppCompatActivity {
         setContentView(R.layout.activity_user_event_detail);
         Bundle intent = getIntent().getExtras();
         //Log.d("check content: ",mEvent.toString());
+        postTitle = intent.getString("Title");
         ((TextView)findViewById(R.id.event_title)).setText(intent.getString("Title"));
         ((TextView)findViewById(R.id.event_description)).setText(intent.getString("Description"));
         String date = String.format("%02d.%02d.%4d", intent.getInt("month"), intent.getInt("day"), intent.getInt("year"));
@@ -64,10 +66,22 @@ public class UserEventDetail extends AppCompatActivity {
 //                                Log.d("Print document", document.getId() + " => " + document.getData());
                             }
 //                            UpdateUI(mPublishers);
-
+                            boolean postSubscribe = false;
                             for (int i = 0; i < userSubscribedPost.size(); i++) {
                                 Log.d("User zuiba:", userSubscribedPost.get(i));
+                                if (postTitle.equals(userSubscribedPost.get(i))) {
+                                    postSubscribe = true;
+                                }
                             }
+                            if (postSubscribe) {
+                                TextView textView=(TextView)findViewById(R.id.subscribe);
+                                textView.setText("unsubscribe");
+                            } else {
+                                TextView textView=(TextView)findViewById(R.id.subscribe);
+                                textView.setText("subscribe");
+                            }
+
+
                         } else {
                             Log.d("Error documents: ", "Something wrong in query firebase");
                         }
@@ -79,4 +93,8 @@ public class UserEventDetail extends AppCompatActivity {
         TextView textView=(TextView)findViewById(R.id.subscribe);
         textView.setText("unsubscribe");
     }
+//    public void setSubcribeButton(View view, String text) {
+//        TextView textView=(TextView)findViewById(R.id.subscribe);
+//        textView.setText(text);
+//    }
 }
