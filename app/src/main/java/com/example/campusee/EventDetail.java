@@ -3,11 +3,15 @@ package com.example.campusee;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -46,8 +50,19 @@ public class EventDetail extends AppCompatActivity {
         ((TextView)findViewById(R.id.event_time)).setText(time);
         String email = "Contact " + authorEmail + " if you have any questions";
         ((TextView)findViewById(R.id.event_email)).setText(email);
-//        ArrayList<String> photoURL = intent.getStringArrayList("ImageUrls");
-//        Log.d("check content: ", photoURL.get(0));
+        ArrayList<String> photoURL = intent.getStringArrayList("ImageUrls");
+        if (photoURL.size() != 0) {
+            Log.d("check content: ", photoURL.get(0));
+            Glide.with(getApplicationContext()).load(Uri.parse(photoURL.get(0))).into((ImageView)findViewById(R.id.event_image));
+        } else {
+            Log.d("check content", "No image");
+        }
+    }
+
+    public void switchToPublisherDashboard(View view) {
+        Intent intent = new Intent(this,PublisherDashboardActivity.class);
+        intent.putExtra("Email",authorEmail);
+        startActivity(intent);
     }
 
     public void switchToEditPost(View view) {
