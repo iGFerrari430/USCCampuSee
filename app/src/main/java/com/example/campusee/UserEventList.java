@@ -30,6 +30,7 @@ public class UserEventList extends AppCompatActivity {
     public String mEmail = null;
     public ArrayList<DB_Post> mPosts = new ArrayList<>();
     public LinearLayout linearLayout = null;
+    public String currentUser = null;
 
 
     @Override
@@ -40,6 +41,7 @@ public class UserEventList extends AppCompatActivity {
         String email = intent.getStringExtra("Email");
         TextView textView=(TextView)findViewById(R.id.eventlist);
         textView.setText("Welcome to User Event List, "+email+" !");
+        currentUser = email;
         db = new DB_util();
         mEmail = intent.getStringExtra("Email");
         Log.d("see see content? ","see see content");
@@ -107,6 +109,7 @@ public class UserEventList extends AppCompatActivity {
             intent.putExtra("day",mPost.day);
             intent.putExtra("hour",mPost.hour);
             intent.putExtra("minute",mPost.minute);
+            intent.putExtra("CurrentUser",currentUser);
             startActivity(intent);
             return (Void)null;
         }

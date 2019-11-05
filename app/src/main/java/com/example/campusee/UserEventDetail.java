@@ -15,10 +15,12 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class UserEventDetail extends AppCompatActivity {
     public DB_Post mEvent = null;
     public DB_util db = null;
+    public String userEmail = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,7 @@ public class UserEventDetail extends AppCompatActivity {
         ((TextView)findViewById(R.id.event_date)).setText(date);
         String time = String.format("%02d : %02d", intent.getInt("hour"), intent.getInt("minute"));
         ((TextView)findViewById(R.id.event_time)).setText(time);
+        userEmail = intent.getString("CurrentUser");
         String email = "Contact " + intent.getString("AuthorEmail") + " if you have any questions";
         ((TextView)findViewById(R.id.event_email)).setText(email);
         db = new DB_util();
@@ -39,20 +42,32 @@ public class UserEventDetail extends AppCompatActivity {
     }
 
     public void queryFirebase() {
-        this.db.postCollection
+        this.db.userCollection
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        List<String> userSubscribedPost =  new ArrayList<>();
                         if (task.isSuccessful()) {
+                            Log.d("precheck:", userEmail);
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                DB_Post post = document.toObject(DB_Post.class);
-                                Log.d("Post Description: zuiba", post.Description);
+                                DB_User user = document.toObject(DB_User.class);
+                                Log.d("precheck2:", (user.Email));
+                                if (user.Email.equals(userEmail)) {
+                                    userSubscribedPost = user.subPost;
+                                    Log.d("zuibadudu:", user.Email);
+                                }
+
+
 //                                mPublishers.add(user);
 //                                Log.d("User Email", user.Email);
 //                                Log.d("Print document", document.getId() + " => " + document.getData());
                             }
 //                            UpdateUI(mPublishers);
+
+                            for (int i = 0; i < userSubscribedPost.size(); i++) {
+                                Log.d("User zuiba:", userSubscribedPost.get(i));
+                            }
                         } else {
                             Log.d("Error documents: ", "Something wrong in query firebase");
                         }
