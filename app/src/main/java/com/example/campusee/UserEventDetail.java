@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -60,12 +61,7 @@ public class UserEventDetail extends AppCompatActivity {
                                     Log.d("zuibadudu:", user.Email);
                                 }
 
-
-//                                mPublishers.add(user);
-//                                Log.d("User Email", user.Email);
-//                                Log.d("Print document", document.getId() + " => " + document.getData());
                             }
-//                            UpdateUI(mPublishers);
                             boolean postSubscribe = false;
                             for (int i = 0; i < userSubscribedPost.size(); i++) {
                                 Log.d("User zuiba:", userSubscribedPost.get(i));
@@ -89,9 +85,45 @@ public class UserEventDetail extends AppCompatActivity {
                 });
     }
 
+    public void addPostFirebase() {
+        this.db.userCollection
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        List<String> userSubscribedPost =  new ArrayList<>();
+                        if (task.isSuccessful()) {
+                            Log.d("precheck:", userEmail);
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                DB_User user = document.toObject(DB_User.class);
+                                Log.d("precheck2:", (user.Email));
+                                if (user.Email.equals(userEmail)) {
+//                                    userSubscribedPost = user.subPost;
+//                                    Log.d("zuibadudu:", user.Email);
+                                    String uniqueId = document.getId();
+                                    user.subPost.add(postTitle);
+                                    db.userCollection.document(uniqueId).update("subPost", user.subPost);
+
+                                }
+
+                            }
+                        } else {
+                            Log.d("Error documents: ", "Something wrong in query firebase");
+                        }
+                    }
+                });
+    }
+
     public void switchToSubscribee(View view) {
         TextView textView=(TextView)findViewById(R.id.subscribe);
-        textView.setText("unsubscribe");
+        String curr = textView.getText().toString();
+//        Log.d("Current Stat:", curr);
+        if (curr.equals("subscribe")) {
+            Log.d("Current Stat:", curr);
+            addPostFirebase();
+            textView.setText("unsubscribe");
+        }
+
     }
 //    public void setSubcribeButton(View view, String text) {
 //        TextView textView=(TextView)findViewById(R.id.subscribe);
