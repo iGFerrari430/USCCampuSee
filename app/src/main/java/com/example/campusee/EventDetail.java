@@ -21,6 +21,7 @@ public class EventDetail extends AppCompatActivity {
     int hour = -1;
     int minute = -1;
     String description = null;
+    String uniqueID = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,8 @@ public class EventDetail extends AppCompatActivity {
         hour = intent.getInt("hour");
         minute = intent.getInt("minute");
         description = intent.getString("Description");
+        uniqueID = intent.getString("uniqueID");
+
         ((TextView)findViewById(R.id.event_title)).setText(title);
         ((TextView)findViewById(R.id.event_description)).setText("Description: " + description);
         String date = String.format("Date: %02d.%02d.%4d", month, day, year);
@@ -58,6 +61,7 @@ public class EventDetail extends AppCompatActivity {
         intent.putExtra("hour",hour);
         intent.putExtra("minute",minute);
         intent.putExtra("activity", 2);
+        intent.putExtra("uniqueID", uniqueID);
         startActivity(intent);
     }
 }

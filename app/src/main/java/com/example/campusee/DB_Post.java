@@ -17,6 +17,7 @@ public class DB_Post implements Parcelable {
         }
     };
 
+    public String uniqueID;
     public String AuthorEmail;
     public String Title;
     public String Description;
@@ -60,6 +61,10 @@ public class DB_Post implements Parcelable {
         this.hour = in.readInt();
         this.minute = in.readInt();
 
+    }
+
+    public void addID(String ID) {
+        this.uniqueID = ID;
     }
 
     @Override

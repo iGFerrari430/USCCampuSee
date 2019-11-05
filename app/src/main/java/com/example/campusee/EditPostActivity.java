@@ -57,6 +57,7 @@ public class EditPostActivity extends AppCompatActivity {
     public int mYear = -1;
     public int mHour = -1;
     public int mMinute = -1;
+    public String mID = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,7 @@ public class EditPostActivity extends AppCompatActivity {
         if (mActivity == 2) {
             ((EditText)findViewById(R.id.editTitle)).setText(intent.getStringExtra("title"));
             ((EditText)findViewById(R.id.editDescription)).setText(intent.getStringExtra("description"));
+            mID = intent.getStringExtra("uniqueID");
         }
         mImageRecord = (TextView)findViewById(R.id.PictureDescription);
         mSelectFileButton = (Button)findViewById(R.id.AddPictureButton);
@@ -326,7 +328,7 @@ public class EditPostActivity extends AppCompatActivity {
             TimeWrapper tw = EditPostActivity.this.timeSelected;
             // now begin uploading post.
             DB_Post post = new DB_Post(info.email,info.postTitle,info.postDescription,this.pathUrls,this.DownloadUrls,dw.year,dw.month,dw.day,tw.hour,tw.minute);
-//            if (mActivity == 1) {
+            if (mActivity == 1) {
                 db.db.collection("Post").add(post).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
@@ -340,9 +342,28 @@ public class EditPostActivity extends AppCompatActivity {
                         Log.d("啥情况,", "怎么挂了post?");
                     }
                 });
-//            } else if (mActivity == 2) {
-//                db.db.collection("Post").
-//            }
+            } else if (mActivity == 2) {
+                DocumentReference updateFile = db.db.collection("Post").document(mID);
+                Log.d("ID", "ID: " + mID);
+                updateFile.update("Title", info.postTitle,
+                        "Description", info.postDescription,
+                        "ImageUrlList", this.pathUrls,
+                        "DownloadUrls", this.DownloadUrls,
+                        "day", dw.day, "month", dw.month, "year", dw.year,
+                        "hour", tw.hour, "minute", tw.minute).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        completeChecker.set(0, true);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        completeChecker.set(0, true);
+                        uploadFailure.set(0, true);
+                        Log.d("啥情况,", "怎么挂了post?");
+                    }
+                });
+            }
 
             // don't exit when posts are being uploaded.
 

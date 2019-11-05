@@ -108,6 +108,8 @@ public class PublisherDashboardActivity extends AppCompatActivity {
             intent.putExtra("day",mPost.day);
             intent.putExtra("hour",mPost.hour);
             intent.putExtra("minute",mPost.minute);
+            intent.putExtra("uniqueID", mPost.uniqueID);
+            Log.d("get Unique ID", "ID: " + mPost.uniqueID);
             startActivity(intent);
             return (Void)null;
         }
@@ -142,7 +144,9 @@ public class PublisherDashboardActivity extends AppCompatActivity {
                     Log.d("GET SUCCESS STAGE","GET SUCCESS STAGE");
                     for (DocumentSnapshot snapshot : queryDocumentSnapshots){
                         Log.d("Has somethig, right?","Has something, right?");
-                        PublisherDashboardActivity.this.mPosts.add(snapshot.toObject(DB_Post.class));
+                        DB_Post newPost = snapshot.toObject(DB_Post.class);
+                        newPost.addID(snapshot.getId());
+                        PublisherDashboardActivity.this.mPosts.add(newPost);
                     }
                     complete.set(0,true);
                 }
