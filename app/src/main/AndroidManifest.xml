@@ -15,7 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UserEventDetail"></activity>
+        <activity android:name=".UserPublisherDetail"></activity>
+        <activity android:name=".UserPublisherListNew" />
+        <activity android:name=".UserEventDetail" />
         <activity android:name=".UserPublisherList" />
         <activity android:name=".UserEventList" />
         <!--
