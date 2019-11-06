@@ -7,14 +7,14 @@ import java.util.List;
 public class DB_User {
     public String Email;
     public String Password;
-    public List<DB_User> subPublisher;
+    public List<String> subPublisher;
     public List<String> subPost;
 
     public DB_User(){
         // Default no-arg constructor are required by fire-storage
     }
 
-    public DB_User(String Email, String Password, List<DB_User> SubscribedPublisher, List<String> SubscribedPost){
+    public DB_User(String Email, String Password, List<String> SubscribedPublisher, List<String> SubscribedPost){
         this.Email = Email;
         this.Password = Password;
         this.subPublisher = SubscribedPublisher;

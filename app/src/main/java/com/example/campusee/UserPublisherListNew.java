@@ -99,6 +99,8 @@ public class UserPublisherListNew extends AppCompatActivity {
         protected Void doInBackground(Void... users) {
             Intent intent = new Intent(UserPublisherListNew.this,UserPublisherDetail.class);
             intent.putExtra("PublisherEmail", mPublishers.Email);
+            intent.putExtra("CurrentUser", currentUser);
+
 //            intent.putStringArrayListExtra("ImageUrls",mPost.DownloadUrls);
 //            intent.putExtra("AuthorEmail",mPost.AuthorEmail);
 //            intent.putExtra("Title",mPost.Title);
