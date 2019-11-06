@@ -22,4 +22,4 @@
   ### Log in as a User
  If the person logs in as a user, the first page he/she will see is the welcome page that contains three buttons: "view publishers", "view events" and "log out". Obviously, "log out" button is used for the person to log out.
  If the person clicks "view publishers" button, he/she will see the list of all our publishers. If the person clicks one of the publisher's email on the list, user will be redirected to another page where he/she can subscribe our unsubscribe that publisher.
- If the person clicks "view events" button he/she will see the list of all our posts. If the person clicks one of the post, it will go to another page to show the details of that post, and the publisher's email of that post as well.
+ If the person clicks "view events" button he/she will see the list of all our posts. If the person clicks one of the post, it will go to another page which shows the details of that post, and the publisher's email of that post as well.
