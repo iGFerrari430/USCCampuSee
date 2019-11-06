@@ -11,7 +11,7 @@
         android:id="@+id/viewpublishers"
         android:layout_width="413dp"
         android:layout_height="80dp"
-        android:layout_marginTop="272dp"
+        android:layout_marginTop="200dp"
         android:background="#33FFFFFF"
         android:onClick="switchtoUserPublisherList"
         android:text="View Publishers"
@@ -20,21 +20,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.002" />
-
-    <Button
-        android:id="@+id/viewenotices"
-        android:layout_width="413dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="272dp"
-        android:background="#33FFFFFF"
-        android:text="View Notices"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.627" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/viewevents"
@@ -47,9 +33,10 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3" />
+        app:layout_constraintVertical_bias="0.269" />
 
     <TextView
         android:id="@+id/follow"
@@ -79,6 +66,6 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.938" />
+        app:layout_constraintVertical_bias="0.84" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
