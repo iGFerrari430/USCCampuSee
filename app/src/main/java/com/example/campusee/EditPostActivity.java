@@ -51,6 +51,7 @@ public class EditPostActivity extends AppCompatActivity {
     public TimePickerDialog.OnTimeSetListener mTimeSetListener;
     public Button mClearPicture = null;
     private ArrayList<Uri> mImageList = new ArrayList<>();
+    public ArrayList<String> mDownloadURL = new ArrayList<>();
     public int mActivity = 0;
     public int mDay = -1;
     public int mMonth = -1;
@@ -58,6 +59,7 @@ public class EditPostActivity extends AppCompatActivity {
     public int mHour = -1;
     public int mMinute = -1;
     public String mID = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +71,12 @@ public class EditPostActivity extends AppCompatActivity {
             ((EditText)findViewById(R.id.editTitle)).setText(intent.getStringExtra("title"));
             ((EditText)findViewById(R.id.editDescription)).setText(intent.getStringExtra("description"));
             mID = intent.getStringExtra("uniqueID");
+            mDownloadURL = intent.getStringArrayListExtra("imageURL");
         }
         mImageRecord = (TextView)findViewById(R.id.PictureDescription);
+        if (mActivity == 2) {
+            mImageRecord.setText(mDownloadURL.size()+" Pictures Chosen");
+        }
         mSelectFileButton = (Button)findViewById(R.id.AddPictureButton);
         mSubmitButton = (Button)findViewById(R.id.SubmitPost);
         mEditTitleView = findViewById(R.id.editTitle);
@@ -223,7 +229,7 @@ public class EditPostActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
         && data != null && data.getData() != null){
             mImageList.add(data.getData());
-            String info = mImageList.size()+" Pictures Chosen";
+            String info = mImageList.size() + mDownloadURL.size() +" Pictures Chosen";
             mImageRecord.setText(info);
         }
     }
@@ -235,6 +241,7 @@ public class EditPostActivity extends AppCompatActivity {
     public void clearImages() {
         mImageRecord.setText("No Pictures Chosen");
         mImageList.clear();
+        mDownloadURL.clear();
     }
     // Here, we submit the post/images to firebase in the background.
     public class SubmitPostTask extends AsyncTask<Void,Void,Boolean> {
@@ -288,6 +295,7 @@ public class EditPostActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Uri uri) {
                                         SubmitPostTask.this.DownloadUrls.add(uri.toString());
+                                        Log.d("new DownloadUrl.size()", "" + SubmitPostTask.this.DownloadUrls.size());
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                             @Override
@@ -326,6 +334,7 @@ public class EditPostActivity extends AppCompatActivity {
 
             DateWrapper dw = EditPostActivity.this.dateSelected;
             TimeWrapper tw = EditPostActivity.this.timeSelected;
+            this.DownloadUrls.addAll(mDownloadURL);
             // now begin uploading post.
             DB_Post post = new DB_Post(info.email,info.postTitle,info.postDescription,this.pathUrls,this.DownloadUrls,dw.year,dw.month,dw.day,tw.hour,tw.minute);
             if (mActivity == 1) {

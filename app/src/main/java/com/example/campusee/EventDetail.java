@@ -26,6 +26,7 @@ public class EventDetail extends AppCompatActivity {
     int minute = -1;
     String description = null;
     String uniqueID = null;
+    ArrayList<String> photoURL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +51,7 @@ public class EventDetail extends AppCompatActivity {
         ((TextView)findViewById(R.id.event_time)).setText(time);
         String email = "Contact " + authorEmail + " if you have any questions";
         ((TextView)findViewById(R.id.event_email)).setText(email);
-        ArrayList<String> photoURL = intent.getStringArrayList("ImageUrls");
+        photoURL = intent.getStringArrayList("ImageUrls");
         if (photoURL.size() != 0) {
             Log.d("check content: ", photoURL.get(0));
             Glide.with(getApplicationContext()).load(Uri.parse(photoURL.get(0))).into((ImageView)findViewById(R.id.event_image));
@@ -77,6 +78,7 @@ public class EventDetail extends AppCompatActivity {
         intent.putExtra("minute",minute);
         intent.putExtra("activity", 2);
         intent.putExtra("uniqueID", uniqueID);
+        intent.putStringArrayListExtra("imageURL", photoURL);
         startActivity(intent);
     }
 }
