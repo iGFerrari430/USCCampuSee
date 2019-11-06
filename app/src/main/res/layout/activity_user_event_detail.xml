@@ -10,16 +10,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#33B5E5"
-        tools:context=".EventDetail">
+        tools:context=".EventDetail"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-108dp">
 
         <Button
             android:id="@+id/subscribe"
             android:layout_width="126dp"
             android:layout_height="55dp"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="500dp"
             android:layout_marginEnd="150dp"
-            android:layout_marginBottom="130dp"
+            android:layout_marginBottom="50dp"
             android:background="#33FFFFFF"
             android:onClick="switchToSubscribee"
             android:text="subscribe"
@@ -27,21 +28,23 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toBottomOf="@+id/event_email" />
 
         <TextView
             android:id="@+id/event_title"
-            android:layout_width="189dp"
-            android:layout_height="64dp"
+            android:layout_width="366dp"
+            android:layout_height="46dp"
             android:layout_marginStart="111dp"
-            android:layout_marginTop="65dp"
+            android:layout_marginTop="80dp"
             android:layout_marginEnd="111dp"
+            android:layout_marginBottom="10dp"
             android:text="Title"
             android:textAlignment="center"
             android:textSize="36sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/user_event_image"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.49"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -52,24 +55,24 @@
             android:layout_marginStart="58dp"
             android:layout_marginTop="40dp"
             android:layout_marginEnd="90dp"
-            android:layout_marginBottom="193dp"
             android:text="Time"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/event_email"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/event_date"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toBottomOf="@+id/event_date" />
 
         <TextView
             android:id="@+id/event_date"
             android:layout_width="265dp"
             android:layout_height="36dp"
             android:layout_marginStart="56dp"
-            android:layout_marginTop="41dp"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="90dp"
             android:text="Date"
+            app:layout_constraintBottom_toTopOf="@+id/event_time"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/event_description" />
 
@@ -78,29 +81,43 @@
             android:layout_width="262dp"
             android:layout_height="32dp"
             android:layout_marginStart="56dp"
-            android:layout_marginTop="64dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="93dp"
             android:text="Description"
+            app:layout_constraintBottom_toTopOf="@+id/event_date"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/event_title" />
+            app:layout_constraintTop_toBottomOf="@+id/user_event_image" />
 
         <TextView
             android:id="@+id/event_email"
             android:layout_width="263dp"
             android:layout_height="39dp"
             android:layout_marginStart="57dp"
-            android:layout_marginTop="42dp"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="91dp"
-            android:layout_marginBottom="111dp"
+            android:layout_marginBottom="40dp"
             android:text="Follow"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/subscribe"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/event_time"
-            app:layout_constraintVertical_bias="0.068" />
+            app:layout_constraintTop_toBottomOf="@+id/event_time" />
+
+        <ImageView
+            android:id="@+id/user_event_image"
+            android:layout_width="173dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="144dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="144dp"
+            android:layout_marginBottom="6dp"
+            app:layout_constraintBottom_toTopOf="@+id/event_description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/event_title"
+            tools:srcCompat="@tools:sample/avatars" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

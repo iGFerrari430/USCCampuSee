@@ -4,11 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -40,6 +43,14 @@ public class UserEventDetail extends AppCompatActivity {
         userEmail = intent.getString("CurrentUser");
         String email = "Contact " + intent.getString("AuthorEmail") + " if you have any questions";
         ((TextView)findViewById(R.id.event_email)).setText(email);
+        ((TextView)findViewById(R.id.event_email)).setText(email);
+        ArrayList<String> photoURL = intent.getStringArrayList("ImageUrls");
+        if (photoURL.size() != 0) {
+            Log.d("check content: ", photoURL.get(0));
+            Glide.with(getApplicationContext()).load(Uri.parse(photoURL.get(0))).into((ImageView)findViewById(R.id.user_event_image));
+        } else {
+            Log.d("check content", "No image");
+        }
         db = new DB_util();
         queryFirebase();
     }

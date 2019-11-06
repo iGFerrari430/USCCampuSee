@@ -110,6 +110,7 @@ public class UserEventList extends AppCompatActivity {
             intent.putExtra("hour",mPost.hour);
             intent.putExtra("minute",mPost.minute);
             intent.putExtra("CurrentUser",currentUser);
+            intent.putStringArrayListExtra("ImageUrls", mPost.DownloadUrls);
             startActivity(intent);
             return (Void)null;
         }
