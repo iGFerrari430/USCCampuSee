@@ -3,7 +3,7 @@
 
 ### Explanation of Geofence
   Inside our zip file, there are two projects, “USCCampuSee” is our main project, and the existence of “TestGoogleMap” is because our group could not successfully implement the geofence. 
-  When our group tried to implement the geofence in USCCampuSee, the geofence does not work successfully. We believe it is because the incompatibility with the firebase storage, and we do not have enough time to fix it. To make up for it, we created another text project, which is called TestGoogleMap and is attached in our zip file as well. This text project successfully implements the geofence. We create circles for three areas, and when the device enters/exits the circle, it will send notification that "You enter/exit the area". We will be very grateful if we could get partial credits for this functionally.
+  When our group tried to implement the geofence in USCCampuSee, the geofence does not work successfully. We believe it is because the incompatibility with the firebase storage, but we do not have enough time to fix it. To make up for it, we created another text project, which is called TestGoogleMap and is attached in our zip file as well. This text project successfully implements the geofence. We create circles for three areas, and when the device enters/exits the circle, it will send notification that "You enter/exit the area". We will be very grateful if we could get partial credits for this functionally.
 
 ### Detailed Steps to Run the APP
   ### Log in and Sign up
