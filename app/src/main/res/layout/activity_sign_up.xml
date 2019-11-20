@@ -54,13 +54,14 @@
         app:layout_constraintVertical_bias="0.109" />
 
     <RadioGroup
-        android:id="@+id/radioGroup"
+        android:id="@+id/SignUpGroup"
         android:layout_width="371dp"
         android:layout_height="175dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
+        android:checkedButton="@id/SignUp_User"
         android:paddingLeft="100dp"
         android:paddingTop="50dp"
         android:paddingBottom="30dp"
@@ -72,14 +73,14 @@
         app:layout_constraintVertical_bias="0.788">
 
         <RadioButton
-            android:id="@+id/LogIn_Publisher"
+            android:id="@+id/SignUp_Publisher"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:text="Publisher"
             android:textSize="30sp" />
 
         <RadioButton
-            android:id="@+id/Login_User"
+            android:id="@+id/SignUp_User"
             android:layout_width="158dp"
             android:layout_height="62dp"
             android:text="User"
@@ -99,6 +100,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@id/SignUpGroup"
         app:layout_constraintVertical_bias="0.613" />
 </androidx.constraintlayout.widget.ConstraintLayout>

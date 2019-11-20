@@ -30,7 +30,7 @@ public class LogInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        radioGroup = (RadioGroup)findViewById(R.id.radioGroup);
+        radioGroup = (RadioGroup)findViewById(R.id.LogInGroup);
         emailView = findViewById(R.id.email);
         passwordView = findViewById(R.id.password);
 

@@ -38,7 +38,7 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        radioGroup = (RadioGroup)findViewById(R.id.radioGroup);
+        radioGroup = (RadioGroup)findViewById(R.id.SignUpGroup);
         emailView = findViewById(R.id.SignupEmail);
         passwordView = findViewById(R.id.SignupPassword);
 
@@ -87,13 +87,15 @@ public class SignUpActivity extends AppCompatActivity {
             return;
         }
         boolean isPub = true;
-        if (selectedId == R.id.LogIn_Publisher){
+        if (selectedId == R.id.SignUp_Publisher){
             isPub = true;
         }else{
             isPub = false;
         }
         User user = new User(isPub,email,password);
         SignUpTask sTask = new SignUpTask(user,db);
+
+        Toast.makeText(getApplication().getBaseContext(),"Signing you Up...",Toast.LENGTH_LONG).show();
         sTask.execute((Void)null);
     }
 
@@ -131,6 +133,8 @@ public class SignUpActivity extends AppCompatActivity {
             Query query = col.whereEqualTo("Email",user.email);
             Log.d("EXCITED!!!","VE");
             final ArrayList<DocumentSnapshot> shots = new ArrayList<>();
+
+            Log.d("Before making QUERY:::","BEFFORE!!!");
             query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>(){
                 @Override
                 public void onSuccess(QuerySnapshot queryDocumentSnapshots){
@@ -145,6 +149,8 @@ public class SignUpActivity extends AppCompatActivity {
 //                        HashMap<String,String> map = new HashMap<>();
 //                        map.put("Email",user.email);
 //                        map.put("Password",user.password);
+
+                        Log.d("ON making QUERY:::","ON!!!");
                         String email = user.email;
                         String password = user.password;
                         DB_User user = new DB_User(email,password);
