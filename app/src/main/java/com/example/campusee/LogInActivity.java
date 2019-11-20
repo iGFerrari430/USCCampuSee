@@ -31,8 +31,8 @@ public class LogInActivity extends AppCompatActivity {
         setContentView(R.layout.login);
 
         radioGroup = (RadioGroup)findViewById(R.id.LogInGroup);
-        emailView = findViewById(R.id.email);
-        passwordView = findViewById(R.id.password);
+        emailView = findViewById(R.id.LogIn_email);
+        passwordView = findViewById(R.id.LogIn_password);
 
         emailView.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {

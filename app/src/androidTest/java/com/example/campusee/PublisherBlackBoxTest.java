@@ -32,6 +32,15 @@ import static org.hamcrest.Matchers.not;
 public class PublisherBlackBoxTest {
     @Rule
     public ActivityTestRule<SignUpActivity> mSignUpActivityRule = new ActivityTestRule<>(SignUpActivity.class,false,false);
+
+    @Test
+    public void testSignUpUI() {
+        Intent i = new Intent();
+        mSignUpActivityRule.launchActivity(i);
+        onView(withId(R.id.signup)).check(matches(withText("Sign Up")));
+        mSignUpActivityRule.finishActivity();
+    }
+
     /*
     @Test
     public void EnterEditPostPageTest() {
@@ -52,7 +61,7 @@ public class PublisherBlackBoxTest {
 
 
         mSignUpActivityRule.finishActivity();
-    }*/
+    }
     @Test
     public void makePostTest() {
         Intent i = new Intent();
@@ -91,5 +100,7 @@ public class PublisherBlackBoxTest {
 
 
     }
+    */
+
 
 }
