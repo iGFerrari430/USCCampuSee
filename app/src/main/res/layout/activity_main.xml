@@ -8,7 +8,7 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/MainPageSymbol"
         android:layout_width="289dp"
         android:layout_height="153dp"
         android:layout_marginTop="116dp"
@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/Main_LogIn"
         android:layout_width="170dp"
         android:layout_height="70dp"
         android:layout_marginTop="56dp"
@@ -36,11 +36,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2"
+        app:layout_constraintTop_toBottomOf="@+id/Main_Signup"
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/Main_Signup"
         android:layout_width="170dp"
         android:layout_height="70dp"
         android:layout_marginTop="280dp"

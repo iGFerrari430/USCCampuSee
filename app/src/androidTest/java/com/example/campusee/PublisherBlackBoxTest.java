@@ -31,21 +31,57 @@ import static org.hamcrest.Matchers.not;
 @LargeTest
 public class PublisherBlackBoxTest {
     @Rule
-    public ActivityTestRule<SignUpActivity> mSignUpActivityRule = new ActivityTestRule<>(SignUpActivity.class,false,false);
+    public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class,false,false);
 
     @Test
     public void testSignUpUI() {
         Intent i = new Intent();
-        mSignUpActivityRule.launchActivity(i);
-        onView(withId(R.id.signup)).check(matches(withText("Sign Up")));
-        mSignUpActivityRule.finishActivity();
+        mActivityRule.launchActivity(i);
+        onView(withId(R.id.MainPageSymbol)).check(matches(withText("USC CampuSee")));
+        mActivityRule.finishActivity();
     }
+
+
+    @Test
+    public void PostDetailTest(){
+        Intent i = new Intent();
+        mActivityRule.launchActivity(i);
+        onView(withId(R.id.Main_LogIn)).perform(click());
+        String email = "zhuxiaow@usc.edu";
+        String password = "123456";
+
+        onView(withId(R.id.LogIn_email)).perform(typeText(email),closeSoftKeyboard());
+        onView(withId(R.id.LogIn_password)).perform(typeText(password),closeSoftKeyboard());
+
+        onView(withId(R.id.LogIn_Publisher)).perform(click());
+        onView(withId(R.id.LogIn_Submit)).perform(click());
+        onView(withId(Integer.MAX_VALUE)).perform(click());
+
+        onView(withId(R.id.event_title)).check(matches(withText("First post of Xiaowen")));
+    }
+
+    /*
+    public void PostEditTest() {
+        Intent i = new Intent();
+        mActivityRule.launchActivity(i);
+        onView(withId(R.id.Main_LogIn)).perform(click());
+        String email = "zhuxiaow@usc.edu";
+        String password = "123456";
+
+        onView(withId(R.id.LogIn_email)).perform(typeText(email),closeSoftKeyboard());
+        onView(withId(R.id.LogIn_password)).perform(typeText(password),closeSoftKeyboard());
+
+        onView(withId(R.id.LogIn_Publisher)).perform(click());
+        onView(withId(R.id.LogIn_Submit)).perform(click());
+        onView(withId(Integer.MAX_VALUE)).perform(click());
+    }*/
 
     /*
     @Test
     public void EnterEditPostPageTest() {
         Intent i = new Intent();
-        mSignUpActivityRule.launchActivity(i);
+        mActivityRule.launchActivity(i);
+        onView(withId(R.id.Main_Signup)).perform(click());
         long currTime = System.currentTimeMillis();
         String email = currTime+"@ucla.edu";
         String password = currTime+"";
@@ -60,16 +96,17 @@ public class PublisherBlackBoxTest {
         onView(withId(R.id.SubmitPost)).check(matches(isDisplayed()));
 
 
-        mSignUpActivityRule.finishActivity();
+        mActivityRule.finishActivity();
     }
+
     @Test
     public void makePostTest() {
         Intent i = new Intent();
-        mSignUpActivityRule.launchActivity(i);
+        mActivityRule.launchActivity(i);
         long currTime = System.currentTimeMillis();
         String email = currTime+"@ucla.edu";
         String password = currTime+"";
-
+        onView(withId(R.id.Main_Signup)).perform(click());
         onView(withId(R.id.SignupEmail)).perform(clearText(),typeText(email));
         onView(withId(R.id.SignupPassword)).perform(clearText(),typeText(password),closeSoftKeyboard());
         onView(withId(R.id.SignUp_Publisher)).perform(click());
@@ -93,14 +130,7 @@ public class PublisherBlackBoxTest {
         onView(withId(R.id.SubmitPost)).perform(click());
 
         onView(withText("James Harden's Birthday")).check(matches(isDisplayed()));
-
-
-        mSignUpActivityRule.finishActivity();
-
-
-
+        mActivityRule.finishActivity();
     }
     */
-
-
 }
