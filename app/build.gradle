@@ -19,7 +19,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
 }
+
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -44,6 +47,15 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.1.0'
 
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
+
+    androidTestImplementation('com.android.support.test.espresso:espresso-contrib:2.2.2') {
+        exclude group: 'com.android.support', module: 'appcompat'
+        exclude module: 'support-annotations'
+        exclude module: 'support-v4'
+        exclude module: 'support-v13'
+        exclude module: 'recyclerview-v7'
+        exclude module: 'appcompat-v7'
+    }
 
 
 //    //geofence library
