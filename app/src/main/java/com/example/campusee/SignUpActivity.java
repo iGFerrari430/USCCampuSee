@@ -39,8 +39,8 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         radioGroup = (RadioGroup)findViewById(R.id.radioGroup);
-        emailView = findViewById(R.id.email);
-        passwordView = findViewById(R.id.password);
+        emailView = findViewById(R.id.SignupEmail);
+        passwordView = findViewById(R.id.SignupPassword);
 
         emailView.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
