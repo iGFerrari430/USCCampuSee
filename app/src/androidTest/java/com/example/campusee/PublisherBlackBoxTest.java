@@ -34,20 +34,19 @@ public class PublisherBlackBoxTest {
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class,false,false);
 
     @Test
-    public void testSignUpUI() {
+    public void testUI() {
         Intent i = new Intent();
         mActivityRule.launchActivity(i);
         onView(withId(R.id.MainPageSymbol)).check(matches(withText("USC CampuSee")));
         mActivityRule.finishActivity();
     }
 
-
     @Test
     public void PostDetailTest(){
         Intent i = new Intent();
         mActivityRule.launchActivity(i);
         onView(withId(R.id.Main_LogIn)).perform(click());
-        String email = "zhuxiaow@usc.edu";
+        String email = "TestPostDetail@usc.edu";
         String password = "123456";
 
         onView(withId(R.id.LogIn_email)).perform(typeText(email),closeSoftKeyboard());
@@ -57,10 +56,12 @@ public class PublisherBlackBoxTest {
         onView(withId(R.id.LogIn_Submit)).perform(click());
         onView(withId(Integer.MAX_VALUE)).perform(click());
 
-        onView(withId(R.id.event_title)).check(matches(withText("First post of Xiaowen")));
+        onView(withText("TESTPOSTDETAIL")).check(matches(isDisplayed()));
     }
 
-    /*
+
+
+    @Test
     public void PostEditTest() {
         Intent i = new Intent();
         mActivityRule.launchActivity(i);
@@ -74,9 +75,19 @@ public class PublisherBlackBoxTest {
         onView(withId(R.id.LogIn_Publisher)).perform(click());
         onView(withId(R.id.LogIn_Submit)).perform(click());
         onView(withId(Integer.MAX_VALUE)).perform(click());
-    }*/
+        onView(withId(R.id.post_re_edit)).perform(click());
 
-    /*
+        String modified = System.currentTimeMillis()+"";
+        onView(withId(R.id.editTitle)).perform(clearText(),typeText(modified),closeSoftKeyboard());
+        onView(withId(R.id.SubmitPost)).perform(click());
+        onView(withId(Integer.MAX_VALUE)).check(matches(withText(modified)));
+    }
+
+
+
+
+
+
     @Test
     public void EnterEditPostPageTest() {
         Intent i = new Intent();
@@ -132,5 +143,7 @@ public class PublisherBlackBoxTest {
         onView(withText("James Harden's Birthday")).check(matches(isDisplayed()));
         mActivityRule.finishActivity();
     }
-    */
+
+
+
 }

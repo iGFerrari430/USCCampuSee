@@ -26,6 +26,24 @@ public class PURELoginBlackBoxTest {
     public ActivityTestRule<LogInActivity> mActivityRule = new ActivityTestRule<>(LogInActivity.class,false,false);
 
     @Test
+    public void TestLogInUserSuccess() {
+        Intent i = new Intent();
+        mActivityRule.launchActivity(i);
+        //long currTime = System.currentTimeMillis();
+        String email = "zhuxiaow@usc.edu";
+        String password = "123456";
+
+        onView(withId(R.id.LogIn_email)).perform(typeText(email),closeSoftKeyboard());
+        onView(withId(R.id.LogIn_password)).perform(typeText(password),closeSoftKeyboard());
+        onView(withId(R.id.LogIn_Submit)).perform(click());
+
+        onView(withId(R.id.viewpublishers)).check(matches(isDisplayed()));
+
+        mActivityRule.finishActivity();
+    }
+
+
+    @Test
     public void TestLogInFail() {
         Intent i = new Intent();
         mActivityRule.launchActivity(i);
@@ -41,8 +59,10 @@ public class PURELoginBlackBoxTest {
 
         onView(withId(R.id.loginSymbol)).check(matches(isDisplayed()));
 
+        mActivityRule.finishActivity();
 
     }
+
 
     @Test
     public void TestLogInSuccess() {
@@ -59,9 +79,7 @@ public class PURELoginBlackBoxTest {
 
         onView(withId(Integer.MAX_VALUE)).check(matches(isDisplayed()));
 
-
+        mActivityRule.finishActivity();
     }
-
-
 
 }

@@ -42,7 +42,24 @@ public class LoginSignUpBlackBoxTest {
     }
 
 
-    /*
+    @Test
+    public void testInvalidSignUp() {
+        Intent i = new Intent();
+        mSignUpActivityRule.launchActivity(i);
+        long currTime = System.currentTimeMillis();
+        String email = "zhuxiaow@usc.edu";
+        String password = "123456";
+
+        onView(withId(R.id.SignupEmail)).perform(clearText(),typeText(email),closeSoftKeyboard());
+        onView(withId(R.id.SignupPassword)).perform(clearText(),typeText(password),closeSoftKeyboard());
+        onView(withId(R.id.SignUp_Publisher)).perform(click());
+        onView(withId(R.id.SignupSubmit)).perform(click());
+
+        onView(withId(R.id.signup)).check(matches(isDisplayed()));
+        mSignUpActivityRule.finishActivity();
+    }
+
+
     @Test
     public void testValidSignUpPublisher() {
         Intent i = new Intent();
@@ -79,7 +96,7 @@ public class LoginSignUpBlackBoxTest {
         mSignUpActivityRule.finishActivity();
     }
 
-    */
+
 
 }
 
