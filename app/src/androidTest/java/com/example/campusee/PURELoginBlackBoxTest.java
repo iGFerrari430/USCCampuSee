@@ -65,7 +65,7 @@ public class PURELoginBlackBoxTest {
 
 
     @Test
-    public void TestLogInSuccess() {
+    public void TestLogInPublisherSuccess() {
         Intent i = new Intent();
         mActivityRule.launchActivity(i);
         String email = "zhuxiaow@usc.edu";
