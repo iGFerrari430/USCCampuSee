@@ -53,6 +53,7 @@ public class UserEventList extends AppCompatActivity {
 
     public void displayPosts(){
         Log.d("POST SIZE:::::: ",mPosts.size()+"");
+        int currId = Integer.MAX_VALUE;
         for (final DB_Post post : mPosts){
             Log.d("CHECK SIZE: ",post.DownloadUrls.toString());
             TextView txt1 = new TextView(this);
@@ -71,6 +72,8 @@ public class UserEventList extends AppCompatActivity {
 
             txt1.setGravity(Gravity.CENTER);
             txt1.setPaintFlags(txt1.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+            txt1.setId(currId);
+            currId--;
             linearLayout.addView(txt1);
             txt1.setOnClickListener(new View.OnClickListener() {
                 @Override

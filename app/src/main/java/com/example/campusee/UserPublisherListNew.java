@@ -50,6 +50,7 @@ public class UserPublisherListNew extends AppCompatActivity {
     }
 
     public void displayPosts(){
+        int currId = Integer.MAX_VALUE;
         Log.d("POST SIZE:::::: ",mPublishers.size()+"");
         for (final DB_User post : mPublishers){
 //            Log.d("CHECK SIZE: ",post.DownloadUrls.toString());
@@ -69,6 +70,8 @@ public class UserPublisherListNew extends AppCompatActivity {
 
             txt1.setGravity(Gravity.CENTER);
             txt1.setPaintFlags(txt1.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+            txt1.setId(currId);
+            currId--;
             linearLayout.addView(txt1);
             txt1.setOnClickListener(new View.OnClickListener() {
                 @Override
