@@ -62,6 +62,7 @@ public class EditPostActivity extends AppCompatActivity {
     public String mID = null;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +93,9 @@ public class EditPostActivity extends AppCompatActivity {
         mSubmitButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                if (!EditPostActivity.this.isUpLoading){dealWithSubmitPost();}
+                if (!EditPostActivity.this.isUpLoading){
+                    dealWithSubmitPost();
+                }
             }
         });
 
@@ -184,36 +187,37 @@ public class EditPostActivity extends AppCompatActivity {
     }
 
     //When submit button is clicked. begin submiting post
-    public void dealWithSubmitPost(){
+    public boolean dealWithSubmitPost(){
         String email = getIntent().getStringExtra("Email");
         String title = this.mEditTitleView.getText().toString();
         String description = this.mEditDescriptionView.getText().toString();
         if (mActivity == 1) {
             if (title.trim().isEmpty()) {
                 Toast.makeText(this, "Please fill in title", Toast.LENGTH_LONG).show();
-                return;
+                return false;
             } else if (description.trim().isEmpty()) {
                 Toast.makeText(this, "Please fill in description", Toast.LENGTH_LONG).show();
-                return;
+                return false;
             } else if (this.dateSelected == null) {
                 Toast.makeText(this, "Please select date", Toast.LENGTH_LONG).show();
-                return;
+                return false;
             } else if (this.timeSelected == null) {
                 Toast.makeText(this, "Please select time", Toast.LENGTH_LONG).show();
-                return;
+                return false;
             }
         } else if (mActivity == 2) {
             if (title.trim().isEmpty()) {
                 Toast.makeText(this, "Please fill in title", Toast.LENGTH_LONG).show();
-                return;
+                return false;
             } else if (description.trim().isEmpty()) {
                 Toast.makeText(this, "Please fill in description", Toast.LENGTH_LONG).show();
-                return;
+                return false;
             }
         }
         PostInfo info = new PostInfo(email,description,title,this.mImageList);
         SubmitPostTask task = new SubmitPostTask(this.db,info);
         task.execute();
+        return true;
     }
 
     //open file selector. only images are allowed.
