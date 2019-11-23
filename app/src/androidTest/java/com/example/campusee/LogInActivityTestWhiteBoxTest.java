@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 
@@ -36,17 +37,28 @@ public class LogInActivityTestWhiteBoxTest {
     @UiThreadTest
     public void testCorrectPassword() {
         username.requestFocus();
-        username.setText("siyuanx@usc.edu");
+        username.setText("zhuxiaow@usc.edu");
         password.requestFocus();
-        password.setText("13444");
+        password.setText("123456");
         loginButton.callOnClick();
-        assertTrue(false);
-//        assertTrue(mActivity.onLogin());
+//        assertTrue(true);
+        assertTrue(mActivity.onLogin(loginButton));
     }
-
-
-
     @Test
-    public void onLogin() {
+    @UiThreadTest
+    public void tesIncorrectPassword() {
+        username.requestFocus();
+        username.setText("zhuxiaow@usc.edu");
+        password.requestFocus();
+        password.setText("123");
+        loginButton.callOnClick();
+//        assertTrue(true);
+        assertFalse(mActivity.onLogin(loginButton));
     }
+
+
+
+//    @Test
+//    public void onLogin() {
+//    }
 }
