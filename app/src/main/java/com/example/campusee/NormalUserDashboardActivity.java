@@ -22,7 +22,7 @@ import com.google.firebase.storage.UploadTask;
 import java.util.ArrayList;
 
 public class NormalUserDashboardActivity extends AppCompatActivity {
-    private String email;
+    public String email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,15 +33,17 @@ public class NormalUserDashboardActivity extends AppCompatActivity {
         TextView textView=(TextView)findViewById(R.id.follow);
         textView.setText("Welcome back, "+email+" !");
     }
-    public void switchtoUserEventList(View view) {
+    public boolean switchtoUserEventList(View view) {
         Intent intent = new Intent(this,UserEventList.class);
         intent.putExtra("Email", this.email);
         startActivity(intent);
+        return true;
     }
-    public void switchtoUserPublisherList(View view) {
+    public boolean switchtoUserPublisherList(View view) {
         Intent intent = new Intent(this, UserPublisherListNew.class);
         intent.putExtra("Email", this.email);
         startActivity(intent);
+        return true;
     }
 
     public void switchToMain(View view) {
