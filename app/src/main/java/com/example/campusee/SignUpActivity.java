@@ -68,7 +68,7 @@ public class SignUpActivity extends AppCompatActivity {
         String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
         return s.matches(regex);
     }
-    public void onSubmit(View v){
+    public boolean onSubmit(View v){
         Log.d("initial submit", "INITIAL SUBMIT");
         String email = emailView.getText().toString();
         String password = passwordView.getText().toString();
@@ -78,13 +78,13 @@ public class SignUpActivity extends AppCompatActivity {
         Log.d("PASSWORD: ",password);
         if (email.isEmpty()){
             emailView.setError("um, Email shouldn't be empty");
-            return;
+            return false;
         }else if (password.trim().length() < 6){
             passwordView.setError("um, password should be at least 6 digits long");
-            return;
+            return false;
         }else if (!isValidEmail(email)){
             emailView.setError("But this is not an email!");
-            return;
+            return false;
         }
         boolean isPub = true;
         if (selectedId == R.id.SignUp_Publisher){
@@ -97,6 +97,8 @@ public class SignUpActivity extends AppCompatActivity {
 
         Toast.makeText(getApplication().getBaseContext(),"Signing you Up...",Toast.LENGTH_LONG).show();
         sTask.execute((Void)null);
+
+        return true;
     }
 
     public class SignUpTask extends AsyncTask<Void,Void,Boolean> {

@@ -62,14 +62,15 @@ public class LogInActivity extends AppCompatActivity {
     public EditText emailView = null;
     public EditText passwordView = null;
     public int PUBLISHER = 2131230849;
-    public void onLogin(View v){
-        Log.d("initial submit", "INITIAL SUBMIT");
+    public boolean onLogin(View v){
         String email = emailView.getText().toString();
         String password = passwordView.getText().toString();
+        if (password.trim().length() <= 5){
+            passwordView.setError("Password Incorrect");
+            return false;
+        }
         int selectedId = radioGroup.getCheckedRadioButtonId();
-        Log.d("Checked id: ",""+selectedId);
-        Log.d("EMAIL: ",email);
-        Log.d("PASSWORD: ",password);
+
         boolean isPub = true;
         if (selectedId == R.id.LogIn_Publisher){
             isPub = true;
@@ -81,6 +82,8 @@ public class LogInActivity extends AppCompatActivity {
         // do the login task in the backend, since android does not allow heavy task to be executed in UI Thread.
         LogInTask loginTask = new LogInTask(user,db);
         loginTask.execute((Void)null);
+
+        return true;
     }
 
     public class LogInTask extends AsyncTask<Void,Void,Integer> {

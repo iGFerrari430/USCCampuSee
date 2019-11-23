@@ -43,6 +43,7 @@ public class PURELoginBlackBoxTest {
     }
 
 
+
     @Test
     public void TestLogInFail() {
         Intent i = new Intent();
@@ -81,5 +82,8 @@ public class PURELoginBlackBoxTest {
 
         mActivityRule.finishActivity();
     }
+
+
+
 
 }
