@@ -44,7 +44,7 @@ public class SignUpWhiteBoxTest {
 
     @Test
     @UiThreadTest
-    public void testCorrectPassword() {
+    public void testCorrect() {
         usernameView.requestFocus();
         usernameView.setText("zhuxiaow@usc.edu");
         passwordView.requestFocus();
