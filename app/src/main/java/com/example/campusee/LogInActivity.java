@@ -65,6 +65,9 @@ public class LogInActivity extends AppCompatActivity {
     public boolean onLogin(View v){
         String email = emailView.getText().toString();
         String password = passwordView.getText().toString();
+        if (email.trim().length() == 0){
+            return false;
+        }
         if (password.trim().length() <= 5){
             passwordView.setError("Password Incorrect");
             return false;

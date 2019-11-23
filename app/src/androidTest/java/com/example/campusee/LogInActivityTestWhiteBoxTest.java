@@ -56,6 +56,28 @@ public class LogInActivityTestWhiteBoxTest {
         assertFalse(mActivity.onLogin(loginButton));
     }
 
+    @Test
+    @UiThreadTest
+    public void testEmptyEmail() {
+        username.requestFocus();
+        username.setText("");
+        password.requestFocus();
+        password.setText("123456");
+        loginButton.callOnClick();
+        assertFalse(mActivity.onLogin(loginButton));
+    }
+
+    @Test
+    @UiThreadTest
+    public void testEmptyPassword() {
+        username.requestFocus();
+        username.setText("zhuxiaow@usc.edu");
+        password.requestFocus();
+        password.setText("");
+        loginButton.callOnClick();
+        assertFalse(mActivity.onLogin(loginButton));
+    }
+
 
 
 //    @Test
