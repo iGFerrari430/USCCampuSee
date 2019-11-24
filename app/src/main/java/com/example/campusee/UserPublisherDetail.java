@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -27,11 +28,11 @@ public class UserPublisherDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_publisher_detail);
-        Bundle intent = getIntent().getExtras();
+        Intent intent = getIntent();
         db = new DB_util();
-        publisherEmail = intent.getString("PublisherEmail");
-        ((TextView)findViewById(R.id.event_title)).setText(intent.getString("PublisherEmail"));
-        userEmail = intent.getString("CurrentUser");
+        publisherEmail = intent.getStringExtra("PublisherEmail");
+        ((TextView)findViewById(R.id.event_title)).setText(intent.getStringExtra("PublisherEmail"));
+        userEmail = intent.getStringExtra("CurrentUser");
         queryFirebase();
 
 
@@ -124,7 +125,7 @@ public class UserPublisherDetail extends AppCompatActivity {
                 });
     }
 
-    public void switchToSubscribee(View view) {
+    public boolean switchToSubscribee(View view) {
         TextView textView=(TextView)findViewById(R.id.subscribe);
         String curr = textView.getText().toString();
         if (curr.equals("subscribe")) {
@@ -136,6 +137,7 @@ public class UserPublisherDetail extends AppCompatActivity {
             deletePublisherFirebase();
             textView.setText("subscribe");
         }
+        return true;
 
     }
 }
