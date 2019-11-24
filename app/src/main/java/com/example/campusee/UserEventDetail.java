@@ -31,21 +31,21 @@ public class UserEventDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_event_detail);
-        Bundle intent = getIntent().getExtras();
+        Intent intent = getIntent();
         //Log.d("check content: ",mEvent.toString());
-        postTitle = intent.getString("Title");
-        ((TextView)findViewById(R.id.event_title)).setText(intent.getString("Title"));
-        ((TextView)findViewById(R.id.event_description)).setText(intent.getString("Description"));
-        String date = String.format("%02d.%02d.%4d", intent.getInt("month"), intent.getInt("day"), intent.getInt("year"));
+        postTitle = intent.getStringExtra("Title");
+        ((TextView)findViewById(R.id.event_title)).setText(intent.getStringExtra("Title"));
+        ((TextView)findViewById(R.id.event_description)).setText(intent.getStringExtra("Description"));
+        String date = String.format("%02d.%02d.%4d", intent.getIntExtra("month", 0), intent.getIntExtra("day", 0), intent.getIntExtra("year", 0));
         ((TextView)findViewById(R.id.event_date)).setText(date);
-        String time = String.format("%02d : %02d", intent.getInt("hour"), intent.getInt("minute"));
+        String time = String.format("%02d : %02d", intent.getIntExtra("hour", 0), intent.getIntExtra("minute", 0));
         ((TextView)findViewById(R.id.event_time)).setText(time);
-        userEmail = intent.getString("CurrentUser");
-        String email = "Contact " + intent.getString("AuthorEmail") + " if you have any questions";
+        userEmail = intent.getStringExtra("CurrentUser");
+        String email = "Contact " + intent.getStringExtra("AuthorEmail") + " if you have any questions";
         ((TextView)findViewById(R.id.event_email)).setText(email);
         ((TextView)findViewById(R.id.event_email)).setText(email);
-        ArrayList<String> photoURL = intent.getStringArrayList("ImageUrls");
-        if (photoURL.size() != 0) {
+        ArrayList<String> photoURL = intent.getStringArrayListExtra("ImageUrls");
+        if (photoURL != null && photoURL.size() != 0) {
             Log.d("check content: ", photoURL.get(0));
             Glide.with(getApplicationContext()).load(Uri.parse(photoURL.get(0))).into((ImageView)findViewById(R.id.user_event_image));
         } else {
@@ -63,7 +63,7 @@ public class UserEventDetail extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         List<String> userSubscribedPost =  new ArrayList<>();
                         if (task.isSuccessful()) {
-                            Log.d("precheck:", userEmail);
+                            Log.d("precheck:", "precheck");
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 DB_User user = document.toObject(DB_User.class);
                                 Log.d("precheck2:", (user.Email));
@@ -154,7 +154,7 @@ public class UserEventDetail extends AppCompatActivity {
                 });
     }
 
-    public void switchToSubscribee(View view) {
+    public boolean switchToSubscribee(View view) {
         TextView textView=(TextView)findViewById(R.id.subscribe);
         String curr = textView.getText().toString();
 //        Log.d("Current Stat:", curr);
@@ -167,6 +167,7 @@ public class UserEventDetail extends AppCompatActivity {
             deletePostFirebase();
             textView.setText("subscribe");
         }
+        return true;
 
     }
 //    public void setSubcribeButton(View view, String text) {
