@@ -45,7 +45,7 @@ public class UserEventDetailWhiteBoxTest {
 
     @Test
     @UiThreadTest
-    public void testUnSubscribe() {
+    public void testSubscribe() {
         subscribeButton.callOnClick();
         assertTrue(mActivity.switchToSubscribee(subscribeButton));
     }
