@@ -17,7 +17,7 @@ import static org.junit.Assert.assertFalse;
 
 
 
-public class UserPublisherDetialWhiteBoxTest {
+public class UserPublisherDetialWhiteBoxTest2 {
     @Rule
     public ActivityTestRule<UserPublisherDetail> mUserPublisherDetail = new ActivityTestRule<UserPublisherDetail>(UserPublisherDetail.class);
 
@@ -30,13 +30,13 @@ public class UserPublisherDetialWhiteBoxTest {
         i.putExtra("PublisherEmail", "zhuxiaow@usc.edu");
         mActivity = mUserPublisherDetail.launchActivity(i);
         subscribeButton = (Button) mActivity.findViewById(R.id.subscribe);
-        subscribeButton.setText("subscribe");
+        subscribeButton.setText("unsubscribe");
 
     }
 
     @Test
     @UiThreadTest
-    public void testUnSubscribe() {
+    public void testSubscribe() {
         subscribeButton.callOnClick();
         assertTrue(mActivity.switchToSubscribee(subscribeButton));
     }
