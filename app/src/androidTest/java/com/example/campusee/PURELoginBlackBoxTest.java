@@ -26,18 +26,18 @@ public class PURELoginBlackBoxTest {
     public ActivityTestRule<LogInActivity> mActivityRule = new ActivityTestRule<>(LogInActivity.class,false,false);
 
     @Test
-    public void TestLogInUserSuccess() {
+    public void TestLogInPasswordEmpty() {
         Intent i = new Intent();
         mActivityRule.launchActivity(i);
         //long currTime = System.currentTimeMillis();
         String email = "zhuxiaow@usc.edu";
-        String password = "123456";
+        String password = "";
 
         onView(withId(R.id.LogIn_email)).perform(typeText(email),closeSoftKeyboard());
         onView(withId(R.id.LogIn_password)).perform(typeText(password),closeSoftKeyboard());
         onView(withId(R.id.LogIn_Submit)).perform(click());
 
-        onView(withId(R.id.viewpublishers)).check(matches(isDisplayed()));
+        onView(withId(R.id.loginSymbol)).check(matches(isDisplayed()));
 
         mActivityRule.finishActivity();
     }
