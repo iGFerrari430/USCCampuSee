@@ -3,6 +3,7 @@ package com.example.campusee;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -28,6 +29,7 @@ public class EditUserInfo extends AppCompatActivity {
         emailView = findViewById(R.id.new_email);
         passwordView = findViewById(R.id.new_password);
         oldEmail = getIntent().getStringExtra("Email");
+        type = getIntent().getStringExtra("Type");
 
         emailView.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
@@ -55,6 +57,7 @@ public class EditUserInfo extends AppCompatActivity {
     public EditText emailView = null;
     public EditText passwordView = null;
     public String oldEmail = null;
+    public String type = null;
 
     public boolean onUpdate(View v){
         String email = emailView.getText().toString();
@@ -66,11 +69,42 @@ public class EditUserInfo extends AppCompatActivity {
             passwordView.setError("Password Incorrect");
             return false;
         }
-        queryfirebase(email, password);
+        if(this.type.equals("user")){
+            queryUserfirebase(email, password);
+            Intent intent = new Intent(this,NormalUserDashboardActivity.class);
+            intent.putExtra("Email", email);
+            startActivity(intent);
+        }else{
+            queryPublisherfirebase(email, password);
+            Intent intent = new Intent(this,PublisherDashboardActivity.class);
+            intent.putExtra("Email", email);
+            startActivity(intent);
+        }
         return true;
     }
 
-    public void queryfirebase(final String email, final String password) {
+    private void queryPublisherfirebase(final String memail, final String mpassword) {
+        this.db.publisherCollection.whereEqualTo("Email", oldEmail).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        Log.d("更新了","新Email有了");
+                        for (DocumentSnapshot snapshot : queryDocumentSnapshots){
+                            Log.d("看这里看这里", ""+snapshot.getId());
+                            String id = snapshot.getId();
+                            DocumentReference updateFile = EditUserInfo.this.db.publisherCollection.document(id);
+                            updateFile.update("Email", memail, "Password", mpassword);
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("啥情况,", "怎么挂了post?");
+            }
+        });
+    }
+
+    public void queryUserfirebase(final String email, final String password) {
         this.db.userCollection.whereEqualTo("Email",oldEmail).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override

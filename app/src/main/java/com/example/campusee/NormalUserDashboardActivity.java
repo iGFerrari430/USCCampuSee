@@ -48,6 +48,7 @@ public class NormalUserDashboardActivity extends AppCompatActivity {
     public boolean editInfo(View view) {
         Intent intent = new Intent(this, EditUserInfo.class);
         intent.putExtra("Email", this.email);
+        intent.putExtra("Type", "user");
         startActivity(intent);
         return true;
     }

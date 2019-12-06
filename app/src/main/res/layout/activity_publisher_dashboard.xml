@@ -34,6 +34,13 @@
             android:textStyle="bold" />
 
         <Button
+            android:id="@+id/editProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="editInfo"
+            android:text="Edit Profile" />
+
+        <Button
             android:id="@+id/button4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

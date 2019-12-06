@@ -187,4 +187,11 @@ public class PublisherDashboardActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void editInfo(View view){
+        Intent intent = new Intent(this, EditUserInfo.class);
+        intent.putExtra("Email", mEmail);
+        intent.putExtra("Type", "publisher");
+        startActivity(intent);
+    }
+
 }
