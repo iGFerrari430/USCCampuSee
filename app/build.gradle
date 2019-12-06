@@ -23,7 +23,6 @@ android {
 }
 
 
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.h6ah4i.android.widget.verticalseekbar:verticalseekbar:0.7.2'
