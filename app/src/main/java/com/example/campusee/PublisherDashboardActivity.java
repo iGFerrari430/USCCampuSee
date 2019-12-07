@@ -29,6 +29,8 @@ public class PublisherDashboardActivity extends AppCompatActivity {
     public DB_util db = null;
     public String mEmail = null;
     public ArrayList<DB_Post> mPosts = new ArrayList<>();
+    public ArrayList<DB_Post> mSavedPosts = new ArrayList<>();
+    public ArrayList<String> mSavedPostIDs = new ArrayList<>();
     public LinearLayout linearLayout = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +85,70 @@ public class PublisherDashboardActivity extends AppCompatActivity {
                     startActivity(intent);*/
                     ToNextActivity nTask = new ToNextActivity(post);
                     nTask.execute();
+                }
+            });
+
+        }
+
+
+        TextView draftTitle = new TextView(this);
+        draftTitle.setText("Saved Draft:");
+        //txt1.setId()
+        LinearLayout.LayoutParams linearPms = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+        );
+        linearPms.setMargins(20,20,20,20);
+        draftTitle.setLayoutParams(linearPms);
+
+        draftTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP,32);
+        draftTitle.setTypeface(null, Typeface.BOLD);
+        draftTitle.setTextColor(Color.parseColor("#000000"));
+
+        draftTitle.setGravity(Gravity.CENTER);
+        draftTitle.setId(currId);
+        currId--;
+        linearLayout.addView(draftTitle);
+
+        //for (final DB_Post post : mSavedPosts){
+        for (int i=0; i<mSavedPosts.size(); i++){
+            final DB_Post post = mSavedPosts.get(i);
+            final String postId = mSavedPostIDs.get(i);
+            Log.d("CHECK SIZE: ",post.DownloadUrls.toString());
+            TextView txt1 = new TextView(this);
+            txt1.setText(post.Title);
+            //txt1.setId()
+            LinearLayout.LayoutParams linearParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT
+            );
+            linearParams.setMargins(20,20,20,20);
+            txt1.setLayoutParams(linearParams);
+
+            txt1.setTextSize(TypedValue.COMPLEX_UNIT_SP,24);
+            txt1.setTypeface(null, Typeface.BOLD);
+            txt1.setTextColor(Color.parseColor("#0000FF"));
+
+            txt1.setGravity(Gravity.CENTER);
+            txt1.setPaintFlags(txt1.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+            txt1.setId(currId);
+            currId--;
+            linearLayout.addView(txt1);
+            txt1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(PublisherDashboardActivity.this,EditPostActivity.class);
+                    intent.putExtra("Email",post.AuthorEmail);
+                    intent.putExtra("title",post.Title);
+                    intent.putExtra("description",post.Description);
+                    intent.putExtra("year",post.year);
+                    intent.putExtra("month",post.month);
+                    intent.putExtra("day",post.day);
+                    intent.putExtra("hour",post.hour);
+                    intent.putExtra("minute",post.minute);
+                    intent.putExtra("activity", 3);
+                    intent.putExtra("postId",postId);
+                    startActivity(intent);
                 }
             });
 
@@ -151,7 +217,20 @@ public class PublisherDashboardActivity extends AppCompatActivity {
                         newPost.addID(snapshot.getId());
                         PublisherDashboardActivity.this.mPosts.add(newPost);
                     }
-                    complete.set(0,true);
+                    PublisherDashboardActivity.this.db.db.collection("SavedDraft")
+                            .whereEqualTo("AuthorEmail",PublisherDashboardActivity.this.mEmail)
+                            .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>(){
+                                @Override
+                                public void onSuccess(QuerySnapshot queryDocumentSnapshots){
+                                    for (DocumentSnapshot snapshot : queryDocumentSnapshots){
+                                        PublisherDashboardActivity.this.mSavedPostIDs.add(snapshot.getId());
+                                        DB_Post p = snapshot.toObject(DB_Post.class);
+                                        PublisherDashboardActivity.this.mSavedPosts.add(p);
+                                    }
+                                    complete.set(0,true);
+                                }
+                    });
+                    //complete.set(0,true);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override

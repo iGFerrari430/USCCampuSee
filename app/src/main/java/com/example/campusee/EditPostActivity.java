@@ -50,6 +50,7 @@ public class EditPostActivity extends AppCompatActivity {
     public TimeWrapper timeSelected = null;
     public DatePickerDialog.OnDateSetListener mDateSetListener;
     public TimePickerDialog.OnTimeSetListener mTimeSetListener;
+    public Button saveDraftButton = null;
     public Button mClearPicture = null;
     private ArrayList<Uri> mImageList = new ArrayList<>();
     public ArrayList<String> mDownloadURL = new ArrayList<>();
@@ -60,7 +61,7 @@ public class EditPostActivity extends AppCompatActivity {
     public int mHour = -1;
     public int mMinute = -1;
     public String mID = null;
-
+    public String mSavedDraftID = null;
 
 
     @Override
@@ -69,15 +70,22 @@ public class EditPostActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_post);
         Intent intent = getIntent();
         mActivity = intent.getIntExtra("activity", 1);
-        if (mActivity == 2) {
+        if (mActivity == 2 || mActivity == 3) {
             ((EditText)findViewById(R.id.editTitle)).setText(intent.getStringExtra("title"));
             ((EditText)findViewById(R.id.editDescription)).setText(intent.getStringExtra("description"));
-            mID = intent.getStringExtra("uniqueID");
-            mDownloadURL = intent.getStringArrayListExtra("imageURL");
+
+            if (mActivity == 2){
+                mID = intent.getStringExtra("uniqueID");
+                mDownloadURL = intent.getStringArrayListExtra("imageURL");
+            }else if (mActivity == 3){
+                mSavedDraftID = intent.getStringExtra("postId");
+            }
         }
         mImageRecord = (TextView)findViewById(R.id.PictureDescription);
         if (mActivity == 2) {
             mImageRecord.setText(mDownloadURL.size()+" Pictures Chosen");
+        }else if (mActivity == 3){
+            mImageRecord.setText("No Pictures Chosen");
         }
         mSelectFileButton = (Button)findViewById(R.id.AddPictureButton);
         mSubmitButton = (Button)findViewById(R.id.SubmitPost);
@@ -100,7 +108,7 @@ public class EditPostActivity extends AppCompatActivity {
         });
 
         mDateSelect = (TextView)findViewById(R.id.dateSelect);
-        if (mActivity == 2) {
+        if (mActivity == 2 || mActivity == 3) {
             mMonth = intent.getIntExtra("month", 0);
             mDay = intent.getIntExtra("day", 0);
             mYear = intent.getIntExtra("year", 0);
@@ -143,7 +151,7 @@ public class EditPostActivity extends AppCompatActivity {
             }
         };
         mTimeSelect = (TextView)findViewById(R.id.TimeSelect);
-        if (mActivity == 2) {
+        if (mActivity == 2 || mActivity == 3) {
             mHour = intent.getIntExtra("hour", 0);
             mMinute = intent.getIntExtra("minute", 0);
             mTimeSelect.setText("" + mHour + ":" + mMinute);
@@ -183,6 +191,13 @@ public class EditPostActivity extends AppCompatActivity {
             }
         });
 
+        saveDraftButton = (Button)findViewById(R.id.saveDraftButton);
+        saveDraftButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                onSaveDraft();
+            }
+        });
+
 
     }
 
@@ -191,7 +206,7 @@ public class EditPostActivity extends AppCompatActivity {
         String email = getIntent().getStringExtra("Email");
         String title = this.mEditTitleView.getText().toString();
         String description = this.mEditDescriptionView.getText().toString();
-        if (mActivity == 1) {
+        if (mActivity == 1 || mActivity == 3) {
             if (title.trim().isEmpty()) {
                 Toast.makeText(this, "Please fill in title", Toast.LENGTH_LONG).show();
                 return false;
@@ -213,6 +228,12 @@ public class EditPostActivity extends AppCompatActivity {
                 Toast.makeText(this, "Please fill in description", Toast.LENGTH_LONG).show();
                 return false;
             }
+        }
+
+        if (this.mSavedDraftID != null){
+            EditPostActivity.this.db.db.collection("SavedDraft")
+                    .document(EditPostActivity.this.mSavedDraftID)
+                    .delete();
         }
         PostInfo info = new PostInfo(email,description,title,this.mImageList);
         SubmitPostTask task = new SubmitPostTask(this.db,info);
@@ -247,6 +268,55 @@ public class EditPostActivity extends AppCompatActivity {
         mImageRecord.setText("No Pictures Chosen");
         mImageList.clear();
         mDownloadURL.clear();
+    }
+
+    public void onSaveDraft() {
+        if (mActivity == 2){
+            Toast.makeText(this, "You cannot save a draft being edited instead of created.", Toast.LENGTH_LONG).show();
+            return;
+        }
+        Log.d("VAVAVa","AAA");
+        String email = getIntent().getStringExtra("Email");
+        String title = this.mEditTitleView.getText().toString();
+        String description = this.mEditDescriptionView.getText().toString();
+        //PostInfo info = new PostInfo(email,description,title,new ArrayList<Uri>());
+
+        //DB_Post post = new DB_Post(info.email,info.postTitle,info.postDescription,this.pathUrls,this.DownloadUrls,dw.year,dw.month,dw.day,tw.hour,tw.minute);
+        if (dateSelected == null){
+            dateSelected = new DateWrapper(1984,12,30);
+
+        }
+        if (timeSelected == null){
+            timeSelected = new TimeWrapper(11,23);
+        }
+        DB_Post post = new DB_Post(email,title,description,new ArrayList<String>(),new ArrayList<String>(),this.dateSelected.year,this.dateSelected.month,this.dateSelected.day,this.timeSelected.hour,this.timeSelected.minute);
+        if (mSavedDraftID == null){
+            db.db.collection("SavedDraft").add(post).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                @Override
+                public void onSuccess(DocumentReference documentReference) {
+                    Log.d("ID IS: ",documentReference.getId());
+                    EditPostActivity.this.mSavedDraftID = documentReference.getId();
+                }
+            });
+        }else{
+            DateWrapper dw = new DateWrapper(2001,7,13);
+            if (this.dateSelected != null){
+                dw = this.dateSelected;
+            }
+            TimeWrapper tw = new TimeWrapper(11,46);
+            if (this.timeSelected != null){
+                tw = this.timeSelected;
+            }
+
+            db.db.collection("SavedDraft").document(this.mSavedDraftID).update("Title", title,
+                    "Description", description,
+                    "day", dw.day, "month", dw.month, "year", dw.year,
+                    "hour", tw.hour, "minute", tw.minute);
+
+        }
+
+
+
     }
     // Here, we submit the post/images to firebase in the background.
     public class SubmitPostTask extends AsyncTask<Void,Void,Boolean> {
@@ -300,7 +370,7 @@ public class EditPostActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Uri uri) {
                                         SubmitPostTask.this.DownloadUrls.add(uri.toString());
-                                        Log.d("new DownloadUrl.size()", "" + SubmitPostTask.this.DownloadUrls.size());
+                                         Log.d("new DownloadUrl.size()", "" + SubmitPostTask.this.DownloadUrls.size());
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                             @Override
@@ -342,7 +412,7 @@ public class EditPostActivity extends AppCompatActivity {
             this.DownloadUrls.addAll(mDownloadURL);
             // now begin uploading post.
             DB_Post post = new DB_Post(info.email,info.postTitle,info.postDescription,this.pathUrls,this.DownloadUrls,dw.year,dw.month,dw.day,tw.hour,tw.minute);
-            if (mActivity == 1) {
+            if (mActivity != 2) {
                 db.db.collection("Post").add(post).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
