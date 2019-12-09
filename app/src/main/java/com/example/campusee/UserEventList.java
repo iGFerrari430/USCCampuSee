@@ -24,6 +24,8 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class UserEventList extends AppCompatActivity {
     public DB_util db = null;
@@ -54,6 +56,29 @@ public class UserEventList extends AppCompatActivity {
     public void displayPosts(){
         Log.d("POST SIZE:::::: ",mPosts.size()+"");
         int currId = Integer.MAX_VALUE;
+        Collections.sort(mPosts,new Comparator<DB_Post>(){
+            @Override
+            public int compare(DB_Post p1, DB_Post p2){
+                if (p1.year != p2.year){
+                    return (p2.year-p1.year);
+                }else{
+                    if (p1.month != p2.month){
+                        return (p2.month - p1.month);
+                    }else{
+                        if (p1.day != p2.day){
+                            return (p2.day - p1.day);
+                        }else{
+                            if (p1.hour != p2.hour){
+                                return p2.hour - p1.hour;
+                            }else{
+                                return p2.minute - p1.minute;
+                            }
+                        }
+                    }
+                }
+            }
+
+        });
         for (final DB_Post post : mPosts){
             Log.d("CHECK SIZE: ",post.DownloadUrls.toString());
             TextView txt1 = new TextView(this);
