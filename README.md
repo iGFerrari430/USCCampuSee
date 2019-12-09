@@ -1,5 +1,9 @@
 # USCCampuSee
   An Android platform to post, edit and view events taking place at USC Campus
+## Result of Sprint
+  1. Added the functionality of modifying profile for both publisher and normal user.<br/>
+  2. Added "save draft" functionality for publisher.<br/>
+  3. Added "Ordering post" functionality for both publisher and user.
 
 ## Explanation of Geofence
   Inside our zip file, there are two projects, “USCCampuSee” is our main project, and the existence of “TestGoogleMap” is because our group could not successfully implement the geofence. 
